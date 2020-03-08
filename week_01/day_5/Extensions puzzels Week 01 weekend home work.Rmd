@@ -1,0 +1,26 @@
+---
+title: "Extensions puzzels Week01"
+output: html_notebook
+---
+
+3.1
+Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.
+
+
+```{r}
+
+multiplication_table <- matrix(1:12)
+
+multiplication_table %*% t(multiplication_table)
+
+
+```
+
+
+
+```{r}
+
+
+
+```
+
