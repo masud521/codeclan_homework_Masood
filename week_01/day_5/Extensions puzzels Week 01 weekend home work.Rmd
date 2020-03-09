@@ -18,9 +18,5 @@ multiplication_table %*% t(multiplication_table)
 
 
 
-```{r}
 
-
-
-```
 

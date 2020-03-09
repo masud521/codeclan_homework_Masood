@@ -226,6 +226,31 @@ for (element in my_list) {
 
 ```{r}
 
+for (element in my_list) {
+  
+  if (is.character(element)) {
+    
+    if ( length(element) > 1 ) {
+      
+    print(paste(element, collapse = " "))
+      
+  } else {
+    
+    print(element) 
+    
+  }
+  
+}
+
+}
+
+```
+
+
+
+
+```{r}
+
 for (x in my_list) {
   
   if (is.numeric(x)) {

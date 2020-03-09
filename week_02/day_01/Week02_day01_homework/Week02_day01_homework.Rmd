@@ -1,0 +1,142 @@
+---
+title: "Reading in data"
+output: html_notebook
+---
+
+1.1 Read in the state_income_data.csv file using the appropriate function
+
+
+```{r}
+
+
+income <- read.csv("data/state_income_data.csv")
+
+
+```
+
+1.2 How do you specify your own column names when using read_csv()
+
+colnames = 
+
+
+1.3 Read in the cars.csv file and use the col_types() function to ensure you load in:
+
+X1 as character, mpg, cyl, disp, hp as double, vs as logical
+
+```{r}
+
+
+
+cars_data <- read_csv("data/cars.csv", col_types = cols(X1 = col_character(), 
+    mpg = col_double(),
+    cyl = col_double(),
+    disp = col_double(),
+    hp = col_double(),
+    vs = col_logical()))
+
+
+```
+
+
+Read in the scotland.txt file using the appropriate function.
+
+```{r}
+
+Scotland <- read_delim("data/scotland.txt", delim = ";")
+
+```
+
+```{r}
+
+# How do you read text into a one element character vector?
+
+read_file
+
+```
+
+ 6.  Read in the steam-200k-sample.csv file. Fix any problems you may encounter.
+
+```{r}
+
+games_data <- read_csv("data/steam-200k-sample.csv", skip = 4)
+
+
+```
+
+Read in the historic_eu_payments.tsv file.
+
+```{r}
+
+EU_payments <- read_tsv("data/historic_eu_payments.tsv")
+
+
+```
+
+How do you read lines of text into a multi-element text vector?
+
+```{r}
+
+read_lines()
+
+```
+
+Read in the JSON file from the following url: http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt
+
+```{r}
+
+library(RJSONIO)
+
+Json_data <- fromJSON(file = "http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt")
+
+
+```
+
+2 Extension
+A lot of Excel sheets you will encounter will contain more than one sheet. Try to write some code that reads in all the different sheets in the file green_bindle_consulting.xlsx.
+
+[ you will need to write a for loop]
+
+```{r}
+
+library(readxl)
+
+green_excelsheets <- length(excel_sheets("data/green_bindle_consulting.xlsx"))
+
+  for(x in 1:green_excelsheets) { 
+    assign(paste0("data_sheet
+
+ 
+ }
+
+```
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

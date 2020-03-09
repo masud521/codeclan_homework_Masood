@@ -1752,22 +1752,32 @@ summary {
 <p>3.1 Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tdWx0aXBsaWNhdGlvbl90YWJsZSA8LSBtYXRyaXgoMToxMilcblxubXVsdGlwbGljYXRpb25fdGFibGUgJSolIHQobXVsdGlwbGljYXRpb25fdGFibGUpXG5cblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tdWx0aXBsaWNhdGlvbl90YWJsZSA8LSBtYXRyaXgoMToxMilcblxubXVsdGlwbGljYXRpb25fdGFibGUgJSolIHQobXVsdGlwbGljYXRpb25fdGFibGUpXG5gYGAifQ== -->
 <pre class="r"><code>
 multiplication_table &lt;- matrix(1:12)
 
-multiplication_table %*% t(multiplication_table)
-</code></pre>
+multiplication_table %*% t(multiplication_table)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgWywxXSBbLDJdIFssM10gWyw0XSBbLDVdIFssNl0gWyw3XSBbLDhdIFssOV0gWywxMF0gWywxMV0gWywxMl1cbiBbMSxdICAgIDEgICAgMiAgICAzICAgIDQgICAgNSAgICA2ICAgIDcgICAgOCAgICA5ICAgIDEwICAgIDExICAgIDEyXG4gWzIsXSAgICAyICAgIDQgICAgNiAgICA4ICAgMTAgICAxMiAgIDE0ICAgMTYgICAxOCAgICAyMCAgICAyMiAgICAyNFxuIFszLF0gICAgMyAgICA2ICAgIDkgICAxMiAgIDE1ICAgMTggICAyMSAgIDI0ICAgMjcgICAgMzAgICAgMzMgICAgMzZcbiBbNCxdICAgIDQgICAgOCAgIDEyICAgMTYgICAyMCAgIDI0ICAgMjggICAzMiAgIDM2ICAgIDQwICAgIDQ0ICAgIDQ4XG4gWzUsXSAgICA1ICAgMTAgICAxNSAgIDIwICAgMjUgICAzMCAgIDM1ICAgNDAgICA0NSAgICA1MCAgICA1NSAgICA2MFxuIFs2LF0gICAgNiAgIDEyICAgMTggICAyNCAgIDMwICAgMzYgICA0MiAgIDQ4ICAgNTQgICAgNjAgICAgNjYgICAgNzJcbiBbNyxdICAgIDcgICAxNCAgIDIxICAgMjggICAzNSAgIDQyICAgNDkgICA1NiAgIDYzICAgIDcwICAgIDc3ICAgIDg0XG4gWzgsXSAgICA4ICAgMTYgICAyNCAgIDMyICAgNDAgICA0OCAgIDU2ICAgNjQgICA3MiAgICA4MCAgICA4OCAgICA5NlxuIFs5LF0gICAgOSAgIDE4ICAgMjcgICAzNiAgIDQ1ICAgNTQgICA2MyAgIDcyICAgODEgICAgOTAgICAgOTkgICAxMDhcblsxMCxdICAgMTAgICAyMCAgIDMwICAgNDAgICA1MCAgIDYwICAgNzAgICA4MCAgIDkwICAgMTAwICAgMTEwICAgMTIwXG5bMTEsXSAgIDExICAgMjIgICAzMyAgIDQ0ICAgNTUgICA2NiAgIDc3ICAgODggICA5OSAgIDExMCAgIDEyMSAgIDEzMlxuWzEyLF0gICAxMiAgIDI0ICAgMzYgICA0OCAgIDYwICAgNzIgICA4NCAgIDk2ICAxMDggICAxMjAgICAxMzIgICAxNDRcbiJ9 -->
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+ [1,]    1    2    3    4    5    6    7    8    9    10    11    12
+ [2,]    2    4    6    8   10   12   14   16   18    20    22    24
+ [3,]    3    6    9   12   15   18   21   24   27    30    33    36
+ [4,]    4    8   12   16   20   24   28   32   36    40    44    48
+ [5,]    5   10   15   20   25   30   35   40   45    50    55    60
+ [6,]    6   12   18   24   30   36   42   48   54    60    66    72
+ [7,]    7   14   21   28   35   42   49   56   63    70    77    84
+ [8,]    8   16   24   32   40   48   56   64   72    80    88    96
+ [9,]    9   18   27   36   45   54   63   72   81    90    99   108
+[10,]   10   20   30   40   50   60   70   80   90   100   110   120
+[11,]   11   22   33   44   55   66   77   88   99   110   121   132
+[12,]   12   24   36   48   60   72   84   96  108   120   132   144</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXh0ZW5zaW9ucyBwdXp6ZWxzIFdlZWswMSIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKMy4xCldyaXRlIGNvZGUgdGhhdCBwcmludHMgYSBtdWx0aXBsaWNhdGlvbiB0YWJsZSBmb3IgbnVtYmVycyB1cCB0byAxMi4gaS5lLiB0aGVyZSB3aWxsIGJlIDEyIHJvd3MgYW5kIDEyIGNvbHVtbnMsIGFuZCBlYWNoIGVsZW1lbnQgc2hvdWxkIGJlIHRoZSByb3cgbnVtYmVyIG11bHRpcGxpZWQgYnkgdGhlIGNvbHVtbiBudW1iZXIuCgoKYGBge3J9CgptdWx0aXBsaWNhdGlvbl90YWJsZSA8LSBtYXRyaXgoMToxMikKCm11bHRpcGxpY2F0aW9uX3RhYmxlICUqJSB0KG11bHRpcGxpY2F0aW9uX3RhYmxlKQoKCmBgYAoKCgpgYGB7cn0KCgoKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXh0ZW5zaW9ucyBwdXp6ZWxzIFdlZWswMSIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKMy4xCldyaXRlIGNvZGUgdGhhdCBwcmludHMgYSBtdWx0aXBsaWNhdGlvbiB0YWJsZSBmb3IgbnVtYmVycyB1cCB0byAxMi4gaS5lLiB0aGVyZSB3aWxsIGJlIDEyIHJvd3MgYW5kIDEyIGNvbHVtbnMsIGFuZCBlYWNoIGVsZW1lbnQgc2hvdWxkIGJlIHRoZSByb3cgbnVtYmVyIG11bHRpcGxpZWQgYnkgdGhlIGNvbHVtbiBudW1iZXIuCgoKYGBge3J9CgptdWx0aXBsaWNhdGlvbl90YWJsZSA8LSBtYXRyaXgoMToxMikKCm11bHRpcGxpY2F0aW9uX3RhYmxlICUqJSB0KG11bHRpcGxpY2F0aW9uX3RhYmxlKQoKCmBgYAoKCgoKCg==</div>
 
 
 
