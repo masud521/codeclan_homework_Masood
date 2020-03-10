@@ -1,5 +1,5 @@
 ---
-title: "Reading in data"
+title: "Reading in data - homework"
 output: html_notebook
 ---
 
@@ -26,13 +26,16 @@ X1 as character, mpg, cyl, disp, hp as double, vs as logical
 ```{r}
 
 
-
-cars_data <- read_csv("data/cars.csv", col_types = cols(X1 = col_character(), 
+cars_data <- read_csv("data/cars.csv", col_types = cols(
+  
+    X1 = col_character(), 
     mpg = col_double(),
     cyl = col_double(),
     disp = col_double(),
     hp = col_double(),
-    vs = col_logical()))
+    vs = col_logical()
+    
+    ))
 
 
 ```
@@ -83,8 +86,7 @@ read_lines()
 Read in the JSON file from the following url: http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt
 
 ```{r}
-
-library(RJSONIO)
+library("rjson")
 
 Json_data <- fromJSON(file = "http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt")
 
