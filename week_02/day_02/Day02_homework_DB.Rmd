@@ -1,0 +1,96 @@
+---
+title: "Wresteling databses"
+output: html_notebook
+---
+
+
+Create a local PostgreSQL database called wrestling
+
+
+Seed the wrestling database from the file wrestling.sql using the psql PostgreSQL command line interface.
+
+
+Create a connection to the local wrestling database from R.
+Don’t forget to lock all the keychains you use.
+Pass the argument max.con = 2 to PostgreSQL() to make sure you don’t have too many simultaneous connections. 
+Remember to add a separate ‘disconnect’ block of code. We’ll write queries between the ‘connect’ and ‘disconnect’ blocks.
+
+
+Using the R connection you just created, write and execute a SQL query to return all the wrestlers in the wrestlers table.
+
+
+Explore the columns stored in the table. State which data type you think each column stores.
+
+```{r}
+
+library(keyring)
+library(RPostgreSQL)
+
+keyring_unlock("local")
+username <- key_get("postgresql_username", keyring = "local") 
+password <- key_get("postgresql_password", keyring = "local")
+keyring_lock("local")
+
+```
+
+
+```{r}
+
+my_db_connection <- dbConnect(drv = PostgreSQL(), user = username, password = password, dbname = "wrestling", host = "localhost")
+
+```
+
+```{r}
+
+
+dbListTables(conn = my_db_connection)
+
+```
+
+```{r}
+
+dbListFields(conn = my_db_connection, name = "wrestlers")
+```
+
+```{r}
+
+data <- dbGetQuery(conn = my_db_connection, statement = "SELECT * FROM wrestlers")
+
+```
+
+
+
+
+```{r}
+
+dbGetQuery(conn = my_db_connection, statement = "SELECT * FROM wrestlers = 'name,")
+
+
+```
+
+
+
+
+
+
+```{r}
+
+
+dbDisconnect(conn = my_db_connection)
+```
+
+
+1.2 Remote PostgreSQL connections
+
+
+
+
+
+
+
+
+
+
+
+
+
