@@ -1,0 +1,43 @@
+---
+title: "Remote wrestling database"
+output: html_notebook
+---
+
+```{r}
+
+library(keyring)
+library(RPostgreSQL)
+
+
+```
+
+```{r}
+
+keyring_unlock("local")
+username <- key_get("remote_username_2", keyring = "remote") 
+password <- key_get("remote_password_2", keyring = "remote")
+keyring_lock("remote")
+
+
+```
+
+
+```{r}
+
+db_connect_remote <- dbConnect(drv = PostgreSQL( max.con = 2), user = username, password = password, dbname = "mvhbdgdk", host = "manny.db.elephantsql.com")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

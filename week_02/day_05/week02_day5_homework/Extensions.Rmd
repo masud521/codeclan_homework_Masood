@@ -1,0 +1,16 @@
+---
+title: "Extensions homework"
+output: html_notebook
+---
+
+# 2.1.Which of the employees provided the most recent feedback? What was the date of this feedback
+
+```{r}
+
+Feedback <- dbGetQuery(my_db_connection, statement = "select *
+                                                  FROM feedbacks
+                                                  ORDER BY date DESC
+                                                  LIMIT 1")
+
+```
+

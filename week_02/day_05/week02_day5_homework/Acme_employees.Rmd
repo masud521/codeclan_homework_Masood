@@ -1,0 +1,143 @@
+---
+title: "acme_employees"
+output: html_notebook
+---
+
+```{r}
+
+library(keyring)
+library(RPostgreSQL)
+
+
+```
+
+```{r}
+
+keyring_unlock("local")
+username <- key_get("postgresql_username", keyring = "local") 
+password <- key_get("postgresql_password", keyring = "local")
+keyring_lock("local")
+
+```
+
+
+
+
+```{r}
+
+my_db_connection <- dbConnect(drv = PostgreSQL(max.con = 2), user = username, password = password, dbname = "acme_employees", host = "localhost")
+
+```
+
+
+
+```{r}
+
+employees_data <- dbGetQuery(my_db_connection, "SELECT *
+                                          FROM employees")
+
+
+```
+
+
+
+
+```{r}
+
+data_employees <- dbGetQuery(my_db_connection, "SELECT id, first_name, last_name,           CONCAT(first_name, ' ', last_name) AS full_name 
+           FROM employees")
+
+
+```
+
+
+
+
+
+```{r}
+
+dbGetQuery(my_db_connection, "SELECT 
+
+           FROM teams INNER JOIN employees
+           ON team_id = team_name")
+
+
+```
+
+
+
+```{r}
+
+# Retrieve the details of all employees again, but this time listing their team name (as team_name), rather than their team_id.
+
+
+team_id <- dbGetQuery(my_db_connection,  "SELECT *
+                                          FROM employees AS e
+                                          LEFT JOIN                                                                  teams AS t ON e.team_id = t.id")
+
+```
+
+
+
+```{r}
+
+# Do a breakdown of the number of employees per team (here we want two columns: team_name and num_employees). Order the table in decreasing number of employees. Include all teams, even if they have no employees.
+
+
+
+dbGetQuery(my_db_connection, "SELECT id, name
+
+FROM teams 
+
+INNER JOIN employees ON teams.teams_id = employees.team_id")
+
+
+
+```
+
+
+
+
+
+# AcmeCorp management want to send an email survey to each of their employees. However, they are worried that some of the employees may not receive the email either because their email addresses may be invalid (in that they don’t contain an ‘@’ symbol), or they may not have a stored email address at all. Can you find all these employees?
+
+
+```{r}
+
+dbGetQuery(my_db_connection,
+           
+           "SLECT 
+
+
+```
+
+
+
+
+
+
+
+```{r}
+
+dbDisconnect(conn = my_db_connection)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

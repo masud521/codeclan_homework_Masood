@@ -26,6 +26,10 @@ Explore the columns stored in the table. State which data type you think each co
 library(keyring)
 library(RPostgreSQL)
 
+```
+
+```{r}
+
 keyring_unlock("local")
 username <- key_get("postgresql_username", keyring = "local") 
 password <- key_get("postgresql_password", keyring = "local")
@@ -36,7 +40,7 @@ keyring_lock("local")
 
 ```{r}
 
-my_db_connection <- dbConnect(drv = PostgreSQL(), user = username, password = password, dbname = "wrestling", host = "localhost")
+my_db_connection <- dbConnect(drv = PostgreSQL(max.con = 2), user = username, password = password, dbname = "wrestling", host = "localhost")
 
 ```
 
@@ -63,7 +67,7 @@ data <- dbGetQuery(conn = my_db_connection, statement = "SELECT * FROM wrestlers
 
 ```{r}
 
-dbGetQuery(conn = my_db_connection, statement = "SELECT * FROM wrestlers = 'name,")
+dbGetQuery(conn = my_db_connection, statement = "SELECT * FROM wrestlers = 'name'")
 
 
 ```
