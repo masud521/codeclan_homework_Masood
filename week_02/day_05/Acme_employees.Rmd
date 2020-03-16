@@ -85,13 +85,12 @@ team_id <- dbGetQuery(my_db_connection,  "SELECT *
 
 
 
-dbGetQuery(my_db_connection, "SELECT id, name
-
-FROM teams 
-
-INNER JOIN employees ON teams.teams_id = employees.team_id")
-
-
+dbGetQuery(db_connection,
+           "SELECT t.name AS team_name, COUNT(e.id) AS num_employees
+           FROM employees AS e RIGHT JOIN teams AS t
+           ON e.team_id = t.id
+           GROUP BY t.name
+           ORDER BY num_employees DESC")
 
 ```
 
@@ -106,7 +105,8 @@ INNER JOIN employees ON teams.teams_id = employees.team_id")
 
 dbGetQuery(my_db_connection,
            
-           "SLECT 
+           "SELECT * FROM employees
+           WHERE email NOT LIKE '%@%' OR email IS NULL")
 
 
 ```

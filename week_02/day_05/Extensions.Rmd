@@ -1,0 +1,60 @@
+---
+title: "Extensions homework"
+output: html_notebook
+---
+
+# 2.1.Which of the employees provided the most recent feedback? What was the date of this feedback
+
+```{r}
+
+Feedback <- dbGetQuery(my_db_connection, statement = "select *
+                                                  FROM feedbacks
+                                                  ORDER BY date DESC
+                                                  LIMIT 1")
+
+```
+
+You are chatting with one of the AcmeCorp employees, and she mentions that one of the teams in the corporation has some employees whose first_name contains only their first initial, e.g. “D” instead of “Dionne”, “C” instead of “Charles” (they had a really formal administrator a few years back). Can you find the name of the team that she is most likely referring to (i.e. which team has the highest number of employees with single initial first_names)`?
+
+
+
+
+```{r}
+
+dbGetQuery(db_connection,
+           "SELECT COUNT(*) AS num_only_first_initial, t.name AS team_name 
+           FROM employees AS e LEFT JOIN teams AS t
+           ON e.team_id = t.id
+           WHERE e.first_name LIKE '_'
+           GROUP BY team_name
+           ORDER BY num_only_first_initial DESC NULLS LAST
+           LIMIT 1")
+
+
+
+
+```
+
+
+
+
+```{r}
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
