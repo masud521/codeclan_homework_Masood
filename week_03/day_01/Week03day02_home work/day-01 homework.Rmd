@@ -1,0 +1,261 @@
+---
+title: "home work"
+output: html_notebook
+---
+
+```{r}
+
+library(tidyverse)
+library(readr)
+
+```
+
+
+Question 1
+
+Load in the dataset and call it drinks_content, eyeball it by printing it out (first 5 rows, last 5 rows, and then all of the data) and find out the dimensions (number of rows/columns) and variable names. 
+
+
+
+```{r}
+
+drinks_content <- read_csv("data/starbucks_drinkMenu_expanded.csv")
+
+
+
+```
+
+
+```{r}
+
+head(drinks_content, 5)
+tail(drinks_content, 5)
+
+drinks_content
+
+
+```
+
+
+```{r}
+
+dim(drinks_content)
+
+```
+
+
+```{r}
+
+names(drinks_content)
+
+```
+
+Question 2
+
+Calculate some quick summary statistics to check the mean and the variance of the Calories variable. Also create a histogram of the Calories variable. Write a quick summary of your initial impressions of the data. 
+
+
+
+```{r}
+
+summary(drinks_content$Calories)
+
+hist(drinks_content$Calories)
+
+```
+
+Question 3
+
+Check if you have any outliers in the Calories variable by creating a boxplot. Then get the actual values of any outliers you have. Finally, decide what you want to do here. Do you want to remove the outliers? Do you want to keep them? Justify your decision either way. As you work through your outlier identification and removal process, write a summary of what you find (i.e. do you find any outliers), what you decide to do (why you are removing them or not, what criteria you might use), and how you removed them if you did (e.g. did you remove all or not). 
+
+
+
+
+```{r}
+
+boxplot(drinks_content$Calories)
+
+
+```
+
+```{r}
+
+outliers <- boxplot(drinks_content$Calories, plot = FALSE)$out
+
+print(outliers)
+
+```
+
+
+
+```{r}
+
+drinks_content[which(drinks_content$Calories %in% outliers), ]
+
+```
+ 
+```{r}
+
+
+drinks_content_outlier <-
+drinks_content[-which(drinks_content$Calories %in% outliers),]
+
+
+```
+
+
+
+```{r}
+
+boxplot(drinks_content_outlier$Calories)
+
+```
+
+
+Question 4
+
+Select the variables beverage_category, beverage, beverage prep and calories from your data. Since we are interested in the calorie content, check if there are any NA values in the data, and drop them if there are. 
+
+
+```{r}
+
+drink_calories <- select(drinks_content, Beverage_category, Beverage, Beverage_prep, Calories)
+
+# check for NA's
+
+is.na(drink_calories$Calories)
+
+```
+
+Question 5
+
+Filter the data so we only take “classic espresso drinks
+
+
+```{r}
+
+classic_espresso_drinks <-
+                        filter(drinks_content, Beverage_category == "Classic Espresso Drinks" )
+
+
+```
+
+Question 6
+
+Create a new tibble called drink_calories which contains a variable called calorie_diff. calorie_diff should store the difference between 135 calories (135 calories = 10 cubes of sugar!) and the calories in each drink. (hint: you’ll want to subtract the calories from 135 to see which drink have more or less than 10 cups of sugar). 
+
+
+
+```{r}
+
+drink_calories <- mutate(classic_espresso_drinks, calorie_diff = 135 - Calories)
+     
+
+```
+
+Question 7
+
+Create a new tibble called drinks_grouped where you group your data by the type of beverage prep. Then summarise the mean calories in each drink (by group) in a variable called mean_cal, and save it to drinks_summary. Finally arrange this summary data in descending order of mean calories. 
+
+
+
+```{r}
+
+# group the data 
+drinks_grouped <- group_by(drink_calories, Beverage_prep)
+
+# summarise the data 
+drinks_summary <- summarise(drinks_grouped, mean_cal = mean(Calories))
+
+# arrange in descending order 
+arrange(drinks_summary,desc(mean_cal))
+
+
+
+```
+
+
+Hopefully you can see by now how much hassle it can be to constantly keep creating tibbles to store all your data. Finish up by using the %>% operator to put all the answers you’ve got from questions 4-7 into one pipe. You don’t need to include the check for NA values in this, as you’d typically check that before you start doing any analysis. 
+
+
+```{r}
+
+drink_pipe <- drinks_content %>%
+  
+              select(Beverage_category, Beverage, Beverage_prep, Calories) %>%
+              filter(Beverage_category == "Classic Espresso Drinks" ) %>%
+              mutate(calorie_diff = 135 - Calories) %>%
+              group_by(Beverage_prep) %>%
+              summarise(mean_cal = mean(Calories)) %>%
+              arrange(desc(mean_cal))
+              
+            
+
+
+```
+
+
+
+Use the drink_calories data to find the two drinks (Beverage) with least and most Calories. (Hint: use the min_rank() function)
+
+
+```{r}
+
+least_calories <- drink_calories %>%
+                  arrange(Calories) %>%
+                  mutate(ranking = min_rank(Calories)) %>%
+                  filter(ranking <=2)
+
+least_calories
+```
+
+```{r}
+
+most_calories <- drink_calories %>%
+                  arrange(Calories) %>%
+                  mutate(ranking = min_rank(desc(Calories))) %>%
+                  filter(ranking <=2)
+
+most_calories
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
