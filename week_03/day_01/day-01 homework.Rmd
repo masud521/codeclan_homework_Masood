@@ -174,6 +174,7 @@ arrange(drinks_summary,desc(mean_cal))
 
 ```
 
+Q8
 
 Hopefully you can see by now how much hassle it can be to constantly keep creating tibbles to store all your data. Finish up by using the %>% operator to put all the answers you’ve got from questions 4-7 into one pipe. You don’t need to include the check for NA values in this, as you’d typically check that before you start doing any analysis. 
 
@@ -194,7 +195,7 @@ drink_pipe <- drinks_content %>%
 
 ```
 
-
+Q9
 
 Use the drink_calories data to find the two drinks (Beverage) with least and most Calories. (Hint: use the min_rank() function)
 
@@ -223,12 +224,53 @@ most_calories
 
 
 
+Harder - Question 10
+
+Group your data by the type of beverage prep. Find all drinks which more calories than the average calories for that group. Save this in a new tibble called above_average_calories.
+
+
+```{r}
+
+above_average_calories <- drink_calories %>%
+  
+  group_by(Beverage_prep) %>%
+  
+  mutate(group_mean_cals = mean(Calories)) %>% 
+  #this line isn't necessary but can be helpful in understanding what the filter line is 
+  
+  select(Beverage, Beverage_prep, Calories, group_mean_cals) %>%
+  
+  filter(Calories > mean(Calories))
+
+above_average_calories
+
+```
+
+
+Question 11
+
+Using the drinks_grouped data, apply the cume_dist function to get the top 25% of Calorie drinks within each group. Save this in a new tibble called drinks_distribution. 
 
 
 
+```{r}
+
+  filter(cume_dist(desc(calories)) < 0.25) %>%
+  select(Beverage_category,Beverage_prep) %>%
+
+drinks_distribution
+
+
+```
 
 
 
+```{r}
+
+
+drinks_grouped <- group_by(drink_calories, Beverage_prep)
+
+```
 
 
 
