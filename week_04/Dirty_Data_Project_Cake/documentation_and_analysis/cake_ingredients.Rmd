@@ -1,0 +1,79 @@
+---
+title: "Cake_ingredients"
+output: html_notebook
+---
+
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(janitor)
+library(here)
+
+```
+
+We have a clean data set now under clean folder so we can start analysing data now.
+
+
+```{r}
+# load data
+
+cake_ingredients <- read_csv(here("clean_data/cake_ingredients_clean.csv"))
+
+```
+
+```{r}
+
+ names(cake_ingredients)
+```
+
+
+1.2.2 Analysis questions
+
+
+
+For sponge cake, how many cups of ingredients are used in total?
+How many ingredients are measured in teaspoons?
+Which cake has the most unique ingredients?
+Which ingredients are used only once?
+
+
+```{r}
+# Which cake has the most cocoa in it?
+
+cake_ingredients %>%
+max(Cake, measure == "cocoa")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
