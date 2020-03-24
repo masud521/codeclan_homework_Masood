@@ -1751,25 +1751,29 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KHN0cmluZ3IpXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGhlcmUpXG5cbmBgYFxuYGBgIn0= -->
-<p><code>r</code>r</p>
-<p>library(tidyverse) library(dplyr) library(stringr) library(janitor) library(here)</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KHN0cmluZ3IpXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGhlcmUpXG5cbmBgYCJ9 -->
+<pre class="r"><code>
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(janitor)
+library(here)
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>We have a clean data set now under clean folder so we can start analysing data now.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBsb2FkIGRhdGFcblxuY2FrZV9pbmdyZWRpZW50cyA8LSByZWFkX2NzdihoZXJlKFxcY2xlYW5fZGF0YS9jYWtlX2luZ3JlZGllbnRzX2NsZWFuLmNzdlxcKSlcbmBgYFxuYGBgIn0= -->
-<p><code>r</code>r # load data</p>
-<p>cake_ingredients &lt;- read_csv(here(_data/cake_ingredients_clean.csv))</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIGRhdGFcblxuY2FrZV9pbmdyZWRpZW50cyA8LSByZWFkX2NzdihoZXJlKFwiY2xlYW5fZGF0YS9jYWtlX2luZ3JlZGllbnRzX2NsZWFuLmNzdlwiKSlcbmBgYCJ9 -->
+<pre class="r"><code># load data
+
+cake_ingredients &lt;- read_csv(here(&quot;clean_data/cake_ingredients_clean.csv&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBDYWtlID0gXHUwMDFiWzMxbWNvbF9jaGFyYWN0ZXIoKVx1MDAxYlszOW0sXG4gIGNvZGUgPSBcdTAwMWJbMzFtY29sX2NoYXJhY3RlcigpXHUwMDFiWzM5bSxcbiAgcXVhbnRpdHkgPSBcdTAwMWJbMzJtY29sX2RvdWJsZSgpXHUwMDFiWzM5bSxcbiAgaW5ncmVkaWVudCA9IFx1MDAxYlszMW1jb2xfY2hhcmFjdGVyKClcdTAwMWJbMzltLFxuICBtZWFzdXJlID0gXHUwMDFiWzMxbWNvbF9jaGFyYWN0ZXIoKVx1MDAxYlszOW1cbilcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBjYWtlID0gXHUwMDFiWzMxbWNvbF9jaGFyYWN0ZXIoKVx1MDAxYlszOW0sXG4gIGNvZGUgPSBcdTAwMWJbMzFtY29sX2NoYXJhY3RlcigpXHUwMDFiWzM5bSxcbiAgcXVhbnRpdHkgPSBcdTAwMWJbMzJtY29sX2RvdWJsZSgpXHUwMDFiWzM5bSxcbiAgaW5ncmVkaWVudCA9IFx1MDAxYlszMW1jb2xfY2hhcmFjdGVyKClcdTAwMWJbMzltLFxuICBtZWFzdXJlID0gXHUwMDFiWzMxbWNvbF9jaGFyYWN0ZXIoKVx1MDAxYlszOW1cbilcbiJ9 -->
 <pre><code>Parsed with column specification:
 cols(
-  Cake = [31mcol_character()[39m,
+  cake = [31mcol_character()[39m,
   code = [31mcol_character()[39m,
   quantity = [32mcol_double()[39m,
   ingredient = [31mcol_character()[39m,
@@ -1784,8 +1788,8 @@ cols(
 <pre class="r"><code>
  names(cake_ingredients)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQ2FrZVwiICAgICAgIFwiY29kZVwiICAgICAgIFwicXVhbnRpdHlcIiAgIFwiaW5ncmVkaWVudFwiIFwibWVhc3VyZVwiICAgXG4ifQ== -->
-<pre><code>[1] &quot;Cake&quot;       &quot;code&quot;       &quot;quantity&quot;   &quot;ingredient&quot; &quot;measure&quot;   </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY2FrZVwiICAgICAgIFwiY29kZVwiICAgICAgIFwicXVhbnRpdHlcIiAgIFwiaW5ncmVkaWVudFwiIFwibWVhc3VyZVwiICAgXG4ifQ== -->
+<pre><code>[1] &quot;cake&quot;       &quot;code&quot;       &quot;quantity&quot;   &quot;ingredient&quot; &quot;measure&quot;   </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1793,20 +1797,32 @@ cols(
 <p>For sponge cake, how many cups of ingredients are used in total? How many ingredients are measured in teaspoons? Which cake has the most unique ingredients? Which ingredients are used only once?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaGljaCBjYWtlIGhhcyB0aGUgbW9zdCBjb2NvYSBpbiBpdD9cblxuY2FrZV9pbmdyZWRpZW50cyAlPiVcbm1heChDYWtlLCBtZWFzdXJlID09IFwiY29jb2FcIilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaGljaCBjYWtlIGhhcyB0aGUgbW9zdCBjb2NvYSBpbiBpdD9cblxuY2FrZV9pbmdyZWRpZW50cyAlPiVcbiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gXCJjb2NvYVwiKSAlPiVcbiAgZmlsdGVyKHF1YW50aXR5ID09IG1heChxdWFudGl0eSkpICU+JVxuICBzZWxlY3QoY2FrZSlcbmBgYCJ9 -->
 <pre class="r"><code># Which cake has the most cocoa in it?
 
 cake_ingredients %&gt;%
-max(Cake, measure == &quot;cocoa&quot;)</code></pre>
+  filter(ingredient == &quot;cocoa&quot;) %&gt;%
+  filter(quantity == max(quantity)) %&gt;%
+  select(cake)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gZnVuY3Rpb25fbGlzdFtba11dKHZhbHVlKSA6IG9iamVjdCAnQ2FrZScgbm90IGZvdW5kXG4ifQ== -->
-<pre><code>Error in function_list[[k]](value) : object 'Cake' not found</code></pre>
-<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJuY29sIjoxLCJucm93IjoxfSwicmRmIjoiSDRzSUFBQUFBQUFBQTExUVd3ckNNQkRjMWtacHdRZDZBUy9RL29qZ0FjUURpRUovMHpUYTBwaVVOcUtmbmx6ZGxBUktBdGxrWjJjbk96a2Y4MTJTSndBd2dja1VJOEVya092bGxCNEFvaENUQUNLSXpmbkc4bVlBQUZhandscEp2aTNVUzJ4WnBaZ1NWSE92bFRCQis5NXJTMHFxYVhicjZNT254NTE2WlJKeDB6TEhIWDR3L0hENXVvNDAxbzBZYlZBUnZoNTVwbHBkSzRuMDBMZ2dYbHZRZWNEeUtZMThtYkxxS1p0MGIwYTI3c0hPRmRnOXVwc25vNStWSWxacXl1VzlsdHhOTFdqQmhVMFc2SFZ3a2JWZExiWDdHMFQ3VEN0TkhTL0JqM1hJNEEyK2YyQVh0RGk4QVFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"one bowl chocolate"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5OQVxuTkFcbmBgYCJ9 -->
+<pre class="r"><code>NA
+NA
+NA
+NA</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FrZV9pbmdyZWRpZW50cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoc3RyaW5ncikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGhlcmUpCgpgYGAKCldlIGhhdmUgYSBjbGVhbiBkYXRhIHNldCBub3cgdW5kZXIgY2xlYW4gZm9sZGVyIHNvIHdlIGNhbiBzdGFydCBhbmFseXNpbmcgZGF0YSBub3cuCgoKYGBge3J9CiMgbG9hZCBkYXRhCgpjYWtlX2luZ3JlZGllbnRzIDwtIHJlYWRfY3N2KGhlcmUoImNsZWFuX2RhdGEvY2FrZV9pbmdyZWRpZW50c19jbGVhbi5jc3YiKSkKCmBgYAoKYGBge3J9CgogbmFtZXMoY2FrZV9pbmdyZWRpZW50cykKYGBgCgoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCgoKCkZvciBzcG9uZ2UgY2FrZSwgaG93IG1hbnkgY3VwcyBvZiBpbmdyZWRpZW50cyBhcmUgdXNlZCBpbiB0b3RhbD8KSG93IG1hbnkgaW5ncmVkaWVudHMgYXJlIG1lYXN1cmVkIGluIHRlYXNwb29ucz8KV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgdW5pcXVlIGluZ3JlZGllbnRzPwpXaGljaCBpbmdyZWRpZW50cyBhcmUgdXNlZCBvbmx5IG9uY2U/CgoKYGBge3J9CiMgV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgY29jb2EgaW4gaXQ/CgpjYWtlX2luZ3JlZGllbnRzICU+JQptYXgoQ2FrZSwgbWVhc3VyZSA9PSAiY29jb2EiKQoKYGBgCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FrZV9pbmdyZWRpZW50cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoc3RyaW5ncikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGhlcmUpCgpgYGAKCldlIGhhdmUgYSBjbGVhbiBkYXRhIHNldCBub3cgdW5kZXIgY2xlYW4gZm9sZGVyIHNvIHdlIGNhbiBzdGFydCBhbmFseXNpbmcgZGF0YSBub3cuCgoKYGBge3J9CiMgbG9hZCBkYXRhCgpjYWtlX2luZ3JlZGllbnRzIDwtIHJlYWRfY3N2KGhlcmUoImNsZWFuX2RhdGEvY2FrZV9pbmdyZWRpZW50c19jbGVhbi5jc3YiKSkKCmBgYAoKYGBge3J9CgogbmFtZXMoY2FrZV9pbmdyZWRpZW50cykKYGBgCgoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCgoKCkZvciBzcG9uZ2UgY2FrZSwgaG93IG1hbnkgY3VwcyBvZiBpbmdyZWRpZW50cyBhcmUgdXNlZCBpbiB0b3RhbD8KSG93IG1hbnkgaW5ncmVkaWVudHMgYXJlIG1lYXN1cmVkIGluIHRlYXNwb29ucz8KV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgdW5pcXVlIGluZ3JlZGllbnRzPwpXaGljaCBpbmdyZWRpZW50cyBhcmUgdXNlZCBvbmx5IG9uY2U/CgoKYGBge3J9CiMgV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgY29jb2EgaW4gaXQ/CgpjYWtlX2luZ3JlZGllbnRzICU+JQogIGZpbHRlcihpbmdyZWRpZW50ID09ICJjb2NvYSIpICU+JQogIGZpbHRlcihxdWFudGl0eSA9PSBtYXgocXVhbnRpdHkpKSAlPiUKICBzZWxlY3QoY2FrZSkKIAogIAogIAoKYGBgCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg==</div>
 
 
 

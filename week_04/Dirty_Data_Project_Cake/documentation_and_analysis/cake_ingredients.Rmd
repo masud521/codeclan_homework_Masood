@@ -44,12 +44,14 @@ Which ingredients are used only once?
 # Which cake has the most cocoa in it?
 
 cake_ingredients %>%
-max(Cake, measure == "cocoa")
+  filter(ingredient == "cocoa") %>%
+  filter(quantity == max(quantity)) %>%
+  select(cake)
+ 
+  
+  
 
 ```
-
-
-
 
 
 

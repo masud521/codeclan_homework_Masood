@@ -10,13 +10,22 @@ library(here)
 
 #Task 2 - Cake ingredients
 
+# This data set is about the cakes, quantity, measurement and ingredients
+
 # Load data from first csv file  
 
+cake_ingredient_1961 <- read_csv("raw_data/cake-ingredients-1961.csv")
+
+# Load data from 2nd csv
 
 cake_ingredient_code <- read_csv("raw_data/cake_ingredient_code.csv")
 
 
-# Variable names
+# Variable names first
+
+names(cake_ingredient_1961)
+
+# variable names 2nd
 
 names(cake_ingredient_code)
 
@@ -34,7 +43,7 @@ names(cake_ingredient_code)
 # Reshape the data from wide to long format, so that for each code column becomes a row. Name the column code  and values into quantity
 
 cake_ingredients <-
-  cake_ingredients_1961 %>%
+  cake_ingredient_1961 %>%
   pivot_longer(-Cake, names_to = "code", values_to = "quantity")
 
 
@@ -65,10 +74,26 @@ cake_ingredients <-
 
 # Left_join here beacsue we need actual ingredients from data set2
 
-cake_ingredients_clean <-
+cake_ingredients <-
   
   cake_ingredients %>%
   left_join(cake_ingredient_code, by = "code")
+
+
+# we will do some cleaning of columns and names so all in lower case and no spaces
+
+cake_ingredients_clean <- cake_ingredients %>%
+  clean_names()
+
+
+# also change text to lower case of columns and rows
+
+
+cake_ingredients_clean <-
+cake_ingredients_clean %>%
+  mutate(ingredient = str_to_lower(ingredient)) %>%
+  mutate(cake = str_to_lower(cake))
+
 
 
 # Write clean data to csv
