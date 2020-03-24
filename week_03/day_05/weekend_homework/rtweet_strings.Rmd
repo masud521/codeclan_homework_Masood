@@ -1,0 +1,227 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+
+library(readr)
+library(tidyverse)
+library(dplyr)
+library(stringr)
+
+```
+
+
+Load the code_clan_tweets.csv data. Find the number of rows, columns, and list all the variable names
+
+```{r}
+
+code_clan_tweets <- read_csv("data/code_clan_tweets.csv")
+
+```
+
+```{r}
+
+dim(code_clan_tweets)
+
+
+```
+
+```{r}
+
+names(code_clan_tweets)
+
+```
+
+Q2. First, we’re going to summarise the number of likes (favorite_count) CodeClan tweets have. Create a boxplot to check for outliers.
+
+
+```{r}
+
+favorite_count_tweet <- summary(code_clan_tweets$favorite_count)
+
+favorite_count
+```
+
+
+
+
+```{r}
+ggplot(code_clan_tweets, aes(x = "favorite_count", favorite_count)) + 
+  geom_boxplot()
+
+```
+
+
+
+
+3. Find the total number of favourited tweets (stored in favorite_count) that CodeClan tweets have got. Don’t add a tweet’s favorite_count to the total when the tweet was quoted (see the is_quote variable).
+
+```{r}
+
+code_clan_tweets %>%
+  filter(is_quote == FALSE) %>%
+  summarise(total = sum(favorite_count))
+  
+
+
+```
+
+
+
+
+Q4.  Summarise the mean number of retweets (retweet_count), split by the type of platform that was used to tweet (source). Again, omit quoted tweets from the mean.
+
+
+```{r}
+
+code_clan_tweets %>%
+  filter(is_quote == FALSE) %>%
+  group_by(source) %>%
+  summarise(average_retweet = mean(retweet_count))
+
+```
+
+
+
+Q5.
+
+Count the total number of likes (i.e. total of favorite_count), split by media type, and arrange them from most likes to least. Assume that any tweets without a listed media type are of type “text”.
+
+
+
+```{r}
+
+code_clan_tweets %>%
+  mutate(media_type2 = replace_na(media_type, "text")) %>%
+  group_by(media_type2) %>%
+  summarise(favourite_count_total = sum(favorite_count)) %>%
+  arrange(desc(favourite_count_total))
+
+```
+
+
+
+
+
+Q6. Find the mean number of characters that a CodeClan tweet contains.
+
+```{r}
+
+code_clan_tweets %>%
+  summarise(avg_tweet_lenght = mean(display_text_width))
+  
+  
+
+```
+
+
+
+Q7. The code_clan_info.csv data file contains status_url along with other info. Load this in, and join it to the code_clan_tweets tibble, so that you have a status_url for each tweet. Decide which variable to join the tibbles on.
+
+
+```{r}
+
+code_clan_info <- read_csv("data/code_clan_info.csv")
+
+```
+
+
+```{r}
+
+names(code_clan_info)
+
+
+```
+
+```{r}
+
+codeclan_all <- left_join(code_clan_tweets,code_clan_info, by = "tweet_id")
+
+```
+
+
+
+
+```{r}
+# 8 : create a variable which has all the hashtags in lowercase for analysis
+
+
+codeclan_hashtags <- codeclan_all%>% 
+  select(tweet_id, hashtags) %>%
+  mutate(lowcase_hashtag = str_to_lower(hashtags)) %>%
+  select(-hashtags) %>%
+  drop_na(lowcase_hashtag)
+
+codeclan_hashtags
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

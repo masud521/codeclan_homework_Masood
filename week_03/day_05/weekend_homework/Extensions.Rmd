@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Q9  Some tweets have more than one hashtag, denoted by the c( symbols at the start of the string. Use the str_sub() and str_detect() functions and your codeclan_hashtags tibble from above to find all the cases in which the hashtag string begins with charactersc(.
+
+
+```{r}
+
+# 9 : use the str_sub function to get the first 2 letters of each tweet
+
+hashtags_multiple <- codeclan_hashtags %>% 
+  mutate(first_letters = str_sub(lowcase_hashtag, 1, 2)) %>%
+  filter(str_detect(first_letters, "c\\("))
+
+hashtags_multiple
+
+```
+
+Q.10
+
+Use the str_detect() function to find all tweets with text that mentions “Edinburgh”, and count how many such tweets there are.
+
+
+```{r}
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

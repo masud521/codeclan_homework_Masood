@@ -101,6 +101,7 @@ facial_recognition %>%
 
 
 Question 6
+
 But, wait… another problem arises… not everyone provided three descriptions! So, if you look at the data, we have some missing values (NAs). We also have some nonsense descriptions (e.g. “f” and “.”). Let’s now sort these out.
 
 Use the filter function to get rid of NA’s and useless descriptions. 
@@ -110,16 +111,56 @@ Use the filter function to get rid of NA’s and useless descriptions.
 all_description <-
 
 all_description %>%
-  filter(!is.na(description),
+  
+ filter(!is.na(description),
          nchar(description) > 1)
+
+all_description
 
 ```
 
 
+Question 7
+
+Now we can actually find something out about our data. Let’s find out what the most common description of each face is. Earlier in the week you learnt how to pipe functions together to create summary stats.
+
+Group the data by description, and summarise the data by generating a count for each group.
 
 
 
 
+```{r}
+
+# group the data
+all_description <-
+  
+all_description %>%
+  group_by(description)
+head(all_description)
+
+# summarise and generate a count for each 
+summarise_data <- summarise(all_description, n = n())
+
+summarise_data
+
+```
+
+
+Question 8
+
+Finally, arrange the output so that we have the most common description at the top, and the least common at the bottom.
+Hint: do you need ascending or descending order for this?
+Create a tibble called top_10_descriptions, which filters your arranged data so that it only takes the top 10 answers.
+
+This will help us answer the question: what are the most common descriptions of faces given?
+
+
+```{r}
+
+
+
+
+```
 
 
 
