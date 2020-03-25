@@ -34,10 +34,10 @@ cake_ingredients <- read_csv(here("clean_data/cake_ingredients_clean.csv"))
 
 
 
-For sponge cake, how many cups of ingredients are used in total?
-How many ingredients are measured in teaspoons?
-Which cake has the most unique ingredients?
-Which ingredients are used only once?
+
+
+
+
 
 
 ```{r}
@@ -54,12 +54,64 @@ cake_ingredients %>%
 ```
 
 
+```{r}
+
+# For sponge cake, how many cups of ingredients are used in total?
+
+cake_ingredients %>%
+  filter(cake == "sponge") %>%
+  filter(measure == "cup") %>%
+  count(measure)
+  
+
+```
 
 
+```{r}
+
+# How many ingredients are measured in teaspoons?
+
+cake_ingredients %>%
+  filter(measure == "teaspoon") %>%
+  summarise(num_measure_teaspoon = n_distinct(ingredient))
+  
+  
+
+  
+  
+  
+ 
+
+```
 
 
+```{r}
+
+# Which cake has the most unique ingredients?
+
+cake_ingredients %>%
+  group_by(cake) %>%
+  summarise(num_ingredients = n()) %>%
+  filter(num_ingredients == max(num_ingredients))
+  
+
+  
+
+```
 
 
+```{r}
+# Which ingredients are used only once?
+
+cake_ingredients %>%
+  group_by(ingredient) %>%
+  summarise(num_ingredients = n()) %>%
+  filter(num_ingredients == min(num_ingredients)) %>%
+  select(ingredient)
+  
+
+
+```
 
 
 
