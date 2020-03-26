@@ -94,6 +94,11 @@ cake_ingredients_clean %>%
   mutate(ingredient = str_to_lower(ingredient)) %>%
   mutate(cake = str_to_lower(cake))
 
+# remove code column as we have ingredients column, so we don't need abbreviations
+
+cake_ingredients_clean <-
+       cake_ingredients_clean %>% 
+       select(-code)
 
 
 # Write clean data to csv

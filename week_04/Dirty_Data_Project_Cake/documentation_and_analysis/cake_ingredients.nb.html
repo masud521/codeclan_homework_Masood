@@ -1820,24 +1820,25 @@ NA</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEZvciBzcG9uZ2UgY2FrZSwgaG93IG1hbnkgY3VwcyBvZiBpbmdyZWRpZW50cyBhcmUgdXNlZCBpbiB0b3RhbD9cblxuY2FrZV9pbmdyZWRpZW50cyAlPiVcbiAgZmlsdGVyKGNha2UgPT0gXCJzcG9uZ2VcIikgJT4lXG4gIGZpbHRlcihtZWFzdXJlID09IFwiY3VwXCIpICU+JVxuICBjb3VudChtZWFzdXJlKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEZvciBzcG9uZ2UgY2FrZSwgaG93IG1hbnkgY3VwcyBvZiBpbmdyZWRpZW50cyBhcmUgdXNlZCBpbiB0b3RhbD9cblxuY2FrZV9pbmdyZWRpZW50cyAlPiVcbiAgZmlsdGVyKGNha2UgPT0gXCJzcG9uZ2VcIikgJT4lXG4gIGZpbHRlcihtZWFzdXJlID09IFwiY3VwXCIpICU+JVxuICBzdW1tYXJpc2UodG90YWxfY3VwcyA9IHN1bShxdWFudGl0eSkpXG5gYGAifQ== -->
 <pre class="r"><code>
 # For sponge cake, how many cups of ingredients are used in total?
 
 cake_ingredients %&gt;%
   filter(cake == &quot;sponge&quot;) %&gt;%
   filter(measure == &quot;cup&quot;) %&gt;%
-  count(measure)</code></pre>
+  summarise(total_cups = sum(quantity))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUE2MVR6VTRDTVJBZTlvZWZUUVFTbm9POTZNR2JGK01ER0UyNGtkSXQwRkRhdGR0R3ZmbklQZ0U0aFhiQnhvUm83S0h0VEdlKytXWTY4M2cvdXk1bUJRQ2trSFp4ei9FSytmUFR3L1FXSUV0UTZFQUdBM2UrNGZNRUwwNDVQbnRJcWEzeHVEcW9ITkIzdjF5U0xXdThUK0tWdlMwampkVXNZTXZZaVFyU05GR2dvaUtHbEV1TmVKSDVRS3ZYTXNSeFJKSVAzUGE0SXNPc3FSbjFlU0RSeEoyWmwrRm9tKzRqcmhPcWhHRFVLRDJuYTZJSk5VeUh1TzBUQ3JzTE9PTVRUcVhzUXJDL2dQd1htVi9nT1A4aytHZWhrSlJzUWdMOUYwdWs0ZVk5L0JPWEs4MHF6cVNKdi9zeXNkR0oyTW95N0lHZlNjSFEvZXJkSjhBSnF5V1p0aVNWQ0FDOWlpMkpGYVp0aEEydkl3cWhTZnJvTmo4MnlpSFVMbXFpbnFvTlY3THgvWk5IN2gwZEtVWld1dDZzcG5SdDVXWjY0MHJraHdYT0JxZHpkaytpakhJUDFXVnl4V1VvZkM3SWdna3ZESEVHRGlOUTFwcTNsUzlRMjVSR0dSTHNDbGNVci9INWZRR3M4Ync3QmdRQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUE2MVQyMDRDTVJBdGUyRmhvMERDZDdBUCt1S2JQaGcvd0dqQ0d5bmRBZzJsWGJ0dDFEYy8yUzhBWjVmcEFxdUpsOWlrbDVuTzVYUjY1djUyZXBsT1UwSklTTUl1ckRFY1NmejRjRGU1SWlRS1FPaVFpUFNyL1FXdXg3V0NrRUcxMzV3UkhDZUdzYUliWHNKaGRLUk1yYlpVenBncnlyWTVrN1Q4Wko1VFM3T0ZnVWd0ODc3Uno1blBjQTR6ZUlObEI2TmxHSlVGWndnNUJMTnFqMUJHeU9FTzB3Ym9NMlphU3M2c05qTzJvb1l5eTQzUDIxeUJzUDBtenVnUUo5ZHVMdmxmZ3Z3WG1GL0VxZndEN3gvNVFqSzY5Zy9vUFRtcXJMQ3YvcCtFV2hxZUM2NHNhcElOcDZVei9BZkFoZ2RnUzhlQkExK0QycFB0K3YyWWJBM0lzQUdwcFErUTVIeEJuYlFORWRhaWFFSHdKT21CMjJ4UGxEclZ0a1dpUkJkV2FGVWlmK0tXZThlMEZFT25LbTdtRTdaeWFqMjVxRXFFTFVPUXJ4MmNSK2VURjhVWXFzdlZVaWhmK0ZqU09aY29ES0FINmhiSUNpT2F5cWVnTGJPNno3eW1LZ3BxOEgwZkNNUit2UEVEQUFBPSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["measure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"cup","2":"3"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+{"columns":[{"label":["total_cups"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"3.5"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5OQVxuYGBgIn0= -->
 <pre class="r"><code>NA
+NA
 NA</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1908,15 +1909,17 @@ cake_ingredients %&gt;%
   filter(num_ingredients == min(num_ingredients)) %&gt;%
   select(ingredient)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6OH0sInJkZiI6Ikg0c0lBQUFBQUFBQUE2MVR6VTRDTVJBdXNDdkxHb0dFRitBRjRHSml2SGt4UG9EUnhKc3AzV0czWVdteFAwRTkrY2dlUFlHejBBRmNZL3lKMmUxdTUrdk05T3MzMCt2THU5UDBMbVdNdFZqckNMOHhUbGw4ZTNNMU9tY3NhcUxSWUJIclZQOUhYQjVzQU1iNk9KS3cwSjV3aFk4TlprOFk0UE9obmc0ZE4vZ0crRmdZYnd2SWhsSkFnTHFaa1FnSWJ3eFhqdUk3a09mRFpTRWR1UjBwNythUUJ5dENpMXlUNTZXRUNSZEZqV29zU201dG9FbGdtbkhIeDFQRDUxQno3eGk5SEN2RXE1QVRITTBYL0t6WDY3ZWFZMlFYSUlJS0xYU3IvbEd3MmRhM3VRN2JOa1BNUU9peUJPRzB1UmNGTjF3NElFazZ1eVUwVnQvazZlL3paTnBQU3ZoTGt2OGk4NHM4SHd0REt2YzN5Z1ZWQlovUmFaSUhqNjBnM1JNVlRhcmNRQ1pCT2VxMk9YRHJEZnlBWlcvUE12ZGc3UmNNV2JkaWVQSEsyRDVYVExsYU81SzZwQVR0REtiY2wyN1hGVE81cUZHZ0F5Y1lkci90R2hJanJ2c2Nudkd6WkcyOWNGSXJHOW90cmdVM1RBM29lVldKbkkxRTRkVnNkRlp0RUM0dEMrMWR6Wk9EZWFOR0xLYUxCeXFYaWtvVGwzd0NKVjFkdkRLYldvNFhSdTVxa3lKcXgwNDdUbjVwSlZ0QXRtS3YzZ0ZIblJscmN3UUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MSwibnJvdyI6OH0sInJkZiI6Ikg0c0lBQUFBQUFBQUE2MVR6VTRDTVJBdXNDdkxHb0dFRitBRjRHSk12SGt4UG9EUnhKc3AzV0czWVdteFAwRTkrY2dlUFlHejBBRmNZL3lKMmUxdTUrdk05T3MzMCt2THU5UDBMbVdNdFZqckNMOHhUbGw4ZTNNMU9tY3NhcUxSWUJIclZQOUhYQjVzQU1iNk9KS3cwSjV3aFk4TlprOFk0UE9obmc0ZE4vZ0crRmdZYnd2SWhsSkFnTHFaa1FnSWJ3eFhqdUk3a09mRFpTRWR1UjBwNythUUJ5dENpMXlUNTZXRUNSZEZqV29zU201dG9FbGdtbkhIeDFQRDUxQno3eGk5SEN2RXE1QVRITTBYL0t6WDY3ZWFZMlFYSUlJS0xYU3IvbEd3MmRhM3VRN2JOa1BNUU9peUJPRzB1UmNGTjF3NElFazZ1eVUwVnQvazZlL3paTnBQU3ZoTGt2OGk4NHM4SHd0REt2YzN5Z1ZWQlovUmFaSUhqNjBnM1JNVlRhcmNRQ1pCT2VxMk9YRHJEZnlBWlcvUE12ZGc3UmNNV2JkaWVQSEsyRDVYVExsYU81SzZwQVR0REtiY2wyN1hGVE81cUZHZ0F5Y1lkci90R2hJanJ2c2Nudkd6WkcyOWNGSXJHOW90cmdVM1RBM29lVldKbkkxRTRkVnNkRlp0RUM0dEMrMWR6Wk9EZWFOR0xLYUxCeXFYaWtvVGwzd0NKVjFkdkRLYldvNFhSdTVxa3lKcXgwNDdUbjVwSlZ0QXRtS3YzZ0VoKy92T2N3UUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["ingredient"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"bananas"},{"1":"cream of tartar"},{"1":"crushed ice"},{"1":"dried currants"},{"1":"egg white"},{"1":"nutmeg"},{"1":"nuts"},{"1":"zwiebach"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5OQVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5OQVxuTkFcbk5BXG5gYGAifQ== -->
 <pre class="r"><code>NA
+NA
+NA
 NA
 NA</code></pre>
 <!-- rnb-source-end -->
@@ -1924,7 +1927,7 @@ NA</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FrZV9pbmdyZWRpZW50cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoc3RyaW5ncikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGhlcmUpCgpgYGAKCldlIGhhdmUgYSBjbGVhbiBkYXRhIHNldCBub3cgdW5kZXIgY2xlYW4gZm9sZGVyIHNvIHdlIGNhbiBzdGFydCBhbmFseXNpbmcgZGF0YSBub3cuCgoKYGBge3J9CiMgbG9hZCBkYXRhCgpjYWtlX2luZ3JlZGllbnRzIDwtIHJlYWRfY3N2KGhlcmUoImNsZWFuX2RhdGEvY2FrZV9pbmdyZWRpZW50c19jbGVhbi5jc3YiKSkKCmBgYAoKYGBge3J9CgogbmFtZXMoY2FrZV9pbmdyZWRpZW50cykKYGBgCgoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCgoKCgoKCgoKCmBgYHtyfQojIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IGNvY29hIGluIGl0PwoKY2FrZV9pbmdyZWRpZW50cyAlPiUKICBmaWx0ZXIoaW5ncmVkaWVudCA9PSAiY29jb2EiKSAlPiUKICBmaWx0ZXIocXVhbnRpdHkgPT0gbWF4KHF1YW50aXR5KSkgJT4lCiAgc2VsZWN0KGNha2UpCiAKICAKICAKCmBgYAoKCmBgYHtyfQoKIyBGb3Igc3BvbmdlIGNha2UsIGhvdyBtYW55IGN1cHMgb2YgaW5ncmVkaWVudHMgYXJlIHVzZWQgaW4gdG90YWw/CgpjYWtlX2luZ3JlZGllbnRzICU+JQogIGZpbHRlcihjYWtlID09ICJzcG9uZ2UiKSAlPiUKICBmaWx0ZXIobWVhc3VyZSA9PSAiY3VwIikgJT4lCiAgY291bnQobWVhc3VyZSkKICAKCmBgYAoKCmBgYHtyfQoKIyBIb3cgbWFueSBpbmdyZWRpZW50cyBhcmUgbWVhc3VyZWQgaW4gdGVhc3Bvb25zPwoKY2FrZV9pbmdyZWRpZW50cyAlPiUKICBmaWx0ZXIobWVhc3VyZSA9PSAidGVhc3Bvb24iKSAlPiUKICBzdW1tYXJpc2UobnVtX21lYXN1cmVfdGVhc3Bvb24gPSBuX2Rpc3RpbmN0KGluZ3JlZGllbnQpKQogIAogIAoKICAKICAKICAKIAoKYGBgCgoKYGBge3J9CgojIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IHVuaXF1ZSBpbmdyZWRpZW50cz8KCmNha2VfaW5ncmVkaWVudHMgJT4lCiAgZ3JvdXBfYnkoY2FrZSkgJT4lCiAgc3VtbWFyaXNlKG51bV9pbmdyZWRpZW50cyA9IG4oKSkgJT4lCiAgZmlsdGVyKG51bV9pbmdyZWRpZW50cyA9PSBtYXgobnVtX2luZ3JlZGllbnRzKSkKICAKCiAgCgpgYGAKCgpgYGB7cn0KIyBXaGljaCBpbmdyZWRpZW50cyBhcmUgdXNlZCBvbmx5IG9uY2U/CgpjYWtlX2luZ3JlZGllbnRzICU+JQogIGdyb3VwX2J5KGluZ3JlZGllbnQpICU+JQogIHN1bW1hcmlzZShudW1faW5ncmVkaWVudHMgPSBuKCkpICU+JQogIGZpbHRlcihudW1faW5ncmVkaWVudHMgPT0gbWluKG51bV9pbmdyZWRpZW50cykpICU+JQogIHNlbGVjdChpbmdyZWRpZW50KQogIAoKCmBgYAoKCgoKCgoKCgoKCgoKCgoKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FrZV9pbmdyZWRpZW50cyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoc3RyaW5ncikKbGlicmFyeShqYW5pdG9yKQpsaWJyYXJ5KGhlcmUpCgpgYGAKCldlIGhhdmUgYSBjbGVhbiBkYXRhIHNldCBub3cgdW5kZXIgY2xlYW4gZm9sZGVyIHNvIHdlIGNhbiBzdGFydCBhbmFseXNpbmcgZGF0YSBub3cuCgoKYGBge3J9CiMgbG9hZCBkYXRhCgpjYWtlX2luZ3JlZGllbnRzIDwtIHJlYWRfY3N2KGhlcmUoImNsZWFuX2RhdGEvY2FrZV9pbmdyZWRpZW50c19jbGVhbi5jc3YiKSkKCmBgYAoKYGBge3J9CgogbmFtZXMoY2FrZV9pbmdyZWRpZW50cykKYGBgCgoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCgoKCgoKCgoKCmBgYHtyfQojIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IGNvY29hIGluIGl0PwoKY2FrZV9pbmdyZWRpZW50cyAlPiUKICBmaWx0ZXIoaW5ncmVkaWVudCA9PSAiY29jb2EiKSAlPiUKICBmaWx0ZXIocXVhbnRpdHkgPT0gbWF4KHF1YW50aXR5KSkgJT4lCiAgc2VsZWN0KGNha2UpCiAKICAKICAKCmBgYAoKCmBgYHtyfQoKIyBGb3Igc3BvbmdlIGNha2UsIGhvdyBtYW55IGN1cHMgb2YgaW5ncmVkaWVudHMgYXJlIHVzZWQgaW4gdG90YWw/CgpjYWtlX2luZ3JlZGllbnRzICU+JQogIGZpbHRlcihjYWtlID09ICJzcG9uZ2UiKSAlPiUKICBmaWx0ZXIobWVhc3VyZSA9PSAiY3VwIikgJT4lCiAgc3VtbWFyaXNlKHRvdGFsX2N1cHMgPSBzdW0ocXVhbnRpdHkpKQogIAogIAoKYGBgCgoKYGBge3J9CgojIEhvdyBtYW55IGluZ3JlZGllbnRzIGFyZSBtZWFzdXJlZCBpbiB0ZWFzcG9vbnM/CgpjYWtlX2luZ3JlZGllbnRzICU+JQogIGZpbHRlcihtZWFzdXJlID09ICJ0ZWFzcG9vbiIpICU+JQogIHN1bW1hcmlzZShudW1fbWVhc3VyZV90ZWFzcG9vbiA9IG5fZGlzdGluY3QoaW5ncmVkaWVudCkpCiAgCiAgCgogIAogIAogIAogCgpgYGAKCgpgYGB7cn0KCiMgV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgdW5pcXVlIGluZ3JlZGllbnRzPwoKY2FrZV9pbmdyZWRpZW50cyAlPiUKICBncm91cF9ieShjYWtlKSAlPiUKICBzdW1tYXJpc2UobnVtX2luZ3JlZGllbnRzID0gbigpKSAlPiUKICBmaWx0ZXIobnVtX2luZ3JlZGllbnRzID09IG1heChudW1faW5ncmVkaWVudHMpKQogIAoKICAKCmBgYAoKCmBgYHtyfQojIFdoaWNoIGluZ3JlZGllbnRzIGFyZSB1c2VkIG9ubHkgb25jZT8KCmNha2VfaW5ncmVkaWVudHMgJT4lCiAgZ3JvdXBfYnkoaW5ncmVkaWVudCkgJT4lCiAgc3VtbWFyaXNlKG51bV9pbmdyZWRpZW50cyA9IG4oKSkgJT4lCiAgZmlsdGVyKG51bV9pbmdyZWRpZW50cyA9PSBtaW4obnVtX2luZ3JlZGllbnRzKSkgJT4lCiAgc2VsZWN0KGluZ3JlZGllbnQpCgoKICAKCgpgYGAKCgoKCgoKCgoKCgoKCgoKCgoKCg==</div>
 
 
 

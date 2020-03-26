@@ -61,7 +61,8 @@ cake_ingredients %>%
 cake_ingredients %>%
   filter(cake == "sponge") %>%
   filter(measure == "cup") %>%
-  count(measure)
+  summarise(total_cups = sum(quantity))
+  
   
 
 ```
@@ -108,6 +109,8 @@ cake_ingredients %>%
   summarise(num_ingredients = n()) %>%
   filter(num_ingredients == min(num_ingredients)) %>%
   select(ingredient)
+
+
   
 
 
