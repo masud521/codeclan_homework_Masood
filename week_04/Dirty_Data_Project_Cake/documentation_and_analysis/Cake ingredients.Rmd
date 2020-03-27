@@ -1,10 +1,16 @@
 ---
-title: "Cake_ingredients"
-output: html_notebook
+title: "Cake Ingredients"
+author: "Masood Khan"
+date: "26/03/2020"
+output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-```{r}
+```{r include=FALSE}
+
 
 library(tidyverse)
 library(dplyr)
@@ -14,6 +20,19 @@ library(here)
 
 ```
 
+
+
+# Cake Ingredients data
+
+Cake ingredients
+
+# This data set is about the cakes, quantity, measurement and ingredients 
+
+
+![ ](https://miro.medium.com/max/1000/1*-WpU0mTqJo7mcqw6EDP1nw.jpeg)
+
+
+
 We have a clean data set now under clean folder so we can start analysing data now.
 
 
@@ -22,21 +41,25 @@ We have a clean data set now under clean folder so we can start analysing data n
 
 cake_ingredients <- read_csv(here("clean_data/cake_ingredients_clean.csv"))
 
+cake_ingredients
+
 ```
+
+# Variable names 
+
 
 ```{r}
 
  names(cake_ingredients)
+
 ```
 
 
-1.2.2 Analysis questions
-
-
-
+# We can start analysing our data now 
 
 ```{r}
-# Which cake has the most cocoa in it?
+
+# 1. Which cake has the most cocoa in it?
 
 cake_ingredients %>%
   filter(ingredient == "cocoa") %>%
@@ -44,14 +67,13 @@ cake_ingredients %>%
   select(cake)
  
   
-  
 
 ```
 
 
 ```{r}
 
-# For sponge cake, how many cups of ingredients are used in total?
+# 2. For sponge cake, how many cups of ingredients are used in total?
 
 cake_ingredients %>%
   filter(cake == "sponge") %>%
@@ -65,7 +87,8 @@ cake_ingredients %>%
 
 ```{r}
 
-# How many ingredients are measured in teaspoons?
+
+# 3. How many ingredients are measured in teaspoons?
 
 cake_ingredients %>%
   filter(measure == "teaspoon") %>%
@@ -73,17 +96,12 @@ cake_ingredients %>%
   
   
 
-  
-  
-  
- 
-
 ```
 
 
 ```{r}
 
-# Which cake has the most unique ingredients?
+# 4. Which cake has the most unique ingredients?
 
 cake_ingredients %>%
   group_by(cake) %>%
@@ -91,13 +109,14 @@ cake_ingredients %>%
   filter(num_ingredients == max(num_ingredients))
   
 
-  
+
 
 ```
 
-
 ```{r}
-# Which ingredients are used only once?
+
+
+# 5. Which ingredients are used only once?
 
 cake_ingredients %>%
   group_by(ingredient) %>%
@@ -105,22 +124,9 @@ cake_ingredients %>%
   filter(num_ingredients == min(num_ingredients)) %>%
   select(ingredient)
 
-
-  
-
-
 ```
 
-
-
-
-
-
-
-
-
-
-
+![ ](https://sayingimages.com/wp-content/uploads/Cat-explosion-Mission-Accomplished-Meme.jpg)
 
 
 
