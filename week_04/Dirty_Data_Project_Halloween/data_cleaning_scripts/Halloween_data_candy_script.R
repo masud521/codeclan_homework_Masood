@@ -17,52 +17,60 @@ library(stringr)
 # Load data from first csv file 
 
 
-boing_candy_2015 <- read_xlsx("raw_data/boing-boing-candy-2015.xlsx")
-boing_candy_2016 <- read_xlsx("raw_data/boing-boing-candy-2016.xlsx")
-boing_candy_2017 <- read_xlsx("raw_data/boing-boing-candy-2017.xlsx")
+candies_2015 <- read_xlsx("raw_data/boing-boing-candy-2015.xlsx")
+candies_2016 <- read_xlsx("raw_data/boing-boing-candy-2016.xlsx")
+candies_2017 <- read_xlsx("raw_data/boing-boing-candy-2017.xlsx")
+
 
 # 1.2 This data is not in tidy form and needs some cleaning before we start analysising.
 
 # start with some cleaning of columns 
 
-boing_candy_2015 <- boing_candy_2015 %>%
+candies_2015 <- candies_2015 %>%
   clean_names()
-boing_candy_2016 <- boing_candy_2016 %>%
+candies_2016 <- candies_2016 %>%
   clean_names()
-boing_candy_2017 <- boing_candy_2017 %>%
+candies_2017 <- candies_2017 %>%
   clean_names()
+
+#remove q6 from columns names of candies data 2017 so they can match with data 2015 and 2016()
+
+names(candies_2017) <- str_remove(names(candies_2017), "q[0-9]+_")
+
+
 
 # I have also noted some in uppercase and lowercase, so we change all text to lower case for better analysis of the data
 # also, change the text to lower case of columns and rows
 
-boing_candy_2015 <- mutate_all(boing_candy_2015, .funs = tolower)
-boing_candy_2016 <- mutate_all(boing_candy_2016, .funs = tolower)
-boing_candy_2017 <- mutate_all(boing_candy_2017, .funs = tolower)
-
-# Clean candy names
+candies_2015 <- mutate_all(candies_2015, .funs = tolower)
+candies_2016 <- mutate_all(candies_2016, .funs = tolower)
+candies_2017 <- mutate_all(candies_2017, .funs = tolower)
 
 
-                    
+# Renaming column in data set 2017 to match columns in 2016 and 2015
 
-
+ candies_2017 <-
+   candies_2017 %>%
+   rename(x100_grand_bar = `100_grand_bar`)
 
 # Reshape the data from wide to long format for all 3 data sets, so that for each candy bar column becomes a row. 
 # Name the column candy  and values into rating 
 
-candy_2015_pivot <-
+pivot_candies_2015 <-
 
-boing_candy_2015 %>%
+candies_2015 %>%
 pivot_longer(butterfinger:york_peppermint_patties, names_to = "candy", values_to = "rating")
 
-candy_2016_pivot <-
+pivot_candies_2016 <-
   
-  boing_candy_2016 %>%
+  candies_2016 %>%
   pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
 
-candy_2017_pivot <-
+
+pivot_candies_2017 <-
   
-  boing_candy_2017 %>%
-  pivot_longer(q6_100_grand_bar:q6_york_peppermint_patties, names_to = "candy", values_to = "rating")
+  candies_2017 %>%
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
 
 
 
@@ -70,130 +78,119 @@ candy_2017_pivot <-
 
 # We have some redundant columns. some of these variables which don't contain any useful data. 
 
-# We can check whether the column contains only one value by using the `unique` function. 
 
-
-candy_2015_pivot <-
-  candy_2015_pivot %>%
-  select(-timestamp)
+pivot_candies_2015 <-
+  pivot_candies_2015 %>%
+  select(-please_leave_any_remarks_or_comments_regarding_your_choices)
 
 # All these columns have no useful information so we can remove them. 
 
-candy_2015_pivot <-
-  candy_2015_pivot %>%
-  select(-c(3,4,5))
+pivot_candies_2015 <-
+  pivot_candies_2015 %>%
+  select(-c(4:30))
 
 
-candy_2016_pivot <-
-  candy_2016_pivot %>%
+pivot_candies_2016 <-
+  pivot_candies_2016 %>%
   select(-timestamp)
 
 
-candy_2016_pivot <-
-  candy_2016_pivot %>%
+pivot_candies_2016 <-
+  pivot_candies_2016 %>%
   select(-c(5:22))
 
 
 
-candy_2017_pivot <-
-  candy_2017_pivot %>%
+pivot_candies_2017 <-
+  pivot_candies_2017 %>%
   select(-internal_id)
 
 
-candy_2017_pivot <-
-  candy_2017_pivot %>%
+pivot_candies_2017 <-
+  pivot_candies_2017 %>%
   select(-c(5:16))
 
 
 
 # Renaming some columns in data set to match columns 
 
-candy_2015_pivot <-
-  candy_2015_pivot %>%
+pivot_candies_2015 <-
+  pivot_candies_2015 %>%
   rename(age = how_old_are_you, going_out = are_you_going_actually_going_trick_or_treating_yourself)
 
 
-candy_2016_pivot <-
-  candy_2016_pivot %>%
-  rename(going_out = are_you_going_actually_going_trick_or_treating_yourself)
+pivot_candies_2016 <-
+  pivot_candies_2016 %>%
+  rename(gender = your_gender, age = how_old_are_you, country = which_country_do_you_live_in)
 
-
-candy_2017_pivot <-
-  candy_2017_pivot %>%
-  rename(going_out = q1_going_out, gender = q2_gender, age = q3_age, country = q4_country)
-
-  
 
 # Make new variables 
 
 # Add new columns to identify the in which year data is collected 
 
-candy_2015_data <-
-  candy_2015_pivot%>%
-  add_column(year = 2015)
+candies_2015_data <-
+  pivot_candies_2015 %>%
+  add_column(country = NA, gender = NA, year = 2015)
 
-candy_2016_data <-
-  candy_2016_pivot %>%
+candies_2016_data <-
+  pivot_candies_2016 %>%
   add_column(year = 2016)
 
-candy_2017_data <-
-  candy_2017_pivot %>%
+candies_2017_data <-
+  pivot_candies_2017 %>%
   add_column(year = 2017)
-
-
-# Clean candy names in candy 2017 data
-
-
-test1 <-
-candy_2017_data %>%
-str_replace(candy_2015_data$candy, "\\q6")
 
 
 
 # Now we needs count missing values
 
 
-# # counting missing values
+# counting missing values
 
-candy_2015_data %>%
+candies_2015_data %>%
   summarise(count = sum(is.na(rating)))
 
-candy_2016_data %>%
+candies_2016_data %>%
   summarise(count = sum(is.na(rating)))
 
-candy_2017_data %>%
+candies_2017_data %>%
   summarise(count = sum(is.na(rating)))
 
 
-# 1.5
+# Missing values
 
 # There are so many missing values so we need deciede whether to keep them of drop them
 
 
-# There are lots of missing values. I would drop the values because otherwise it will not give any usefull result.
-
-
-candy_2015_na <-
-
-  candy_2015_data %>%
-  drop_na(rating)  
-
-
-candy_2016_na <-
-  
-  candy_2016_data %>%
-  drop_na() 
-
-candy_2017_na <-
-  
-  candy_2017_data %>%
-  drop_na() 
+# There are lots of missing values but I can drop them off later while analysing
 
 
 # Combine data from all 3 data sets
 
-candy_halloween_data <-
-bind_rows(candy_2015_data, candy_2016_data, candy_2017_data)
+candies_halloween_data <-
+bind_rows(candies_2015_data, candies_2016_data, candies_2017_data)
+
+
+# now we have a combined data set from 2015, 2016, 2017. 
+# I have notice some discrepancies in country columns which needs to address before we proceed
+
+# first create a vector with mispellings
+
+misspellings <- c("united states of america", "alaska", "united states", "ussa", "usa!", "us", "u.s.a.", "usa (i think but it's an election year so who can really tell)","the best one - usa", "america", "merica", "usa! usa!", "usa", "america")
+
+# replace misspellings with usa
+
+halloween_candies <-
+candies_halloween_data %>%
+mutate(country = if_else(country == "united kingdom", "uk", country))
+
+# mutate(country = if_else(country %in% misspellings, country, "usa"))
+
+
+filter(halloween_candies, country == 'united kingdom')
+
+
+
 
 
 

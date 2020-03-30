@@ -24,7 +24,6 @@ library(here)
 
 # Cake Ingredients data
 
-Cake ingredients
 
 # This data set is about the cakes, quantity, measurement and ingredients 
 
@@ -33,7 +32,7 @@ Cake ingredients
 
 
 
-We have a clean data set now under clean folder so we can start analysing data now.
+# We have a clean data set now so we can start analysing data now.
 
 
 ```{r}
