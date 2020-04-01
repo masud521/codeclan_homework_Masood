@@ -1,0 +1,86 @@
+---
+title: "Halloween candy"
+output: html_notebook
+---
+
+# Task 4 - Halloween Candy Data
+
+# The data is in clean formt now we can use it to ananlyse 
+
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(janitor)
+library(here)
+
+```
+
+
+
+```{r}
+# Load data from first csv file 
+
+halloween_candies <- 
+  read_csv(here("clean_data/halloween_candies.csv"))
+
+```
+
+
+1.4.2 Analysis questions
+
+Q1
+
+```{r}
+# What is the total number of candy ratings given across the three years
+
+halloween_candies %>%
+  group_by(ratings)%>%
+  drop_na(ratings)%>%
+  summarise(candy_ratings = n()) %>%
+  summarise(total_ratings = sum(candy_ratings))
+  
+  
+```
+
+
+Q2
+
+```{r}
+# What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?
+
+
+
+
+```
+
+
+
+
+
+```{r}
+# For each of joy, despair and meh, which candy bar revived the most of these ratings?
+
+  
+halloween_candies %>%
+  group_by(candies, ratings) %>%
+  drop_na(ratings) %>%
+  summarise(candy_ratings = n()) %>%
+  filter(candies != "cadbury_creme_eggs")
+  
+  
+
+```
+
+
+
+
+
+
+
+
+
+
+

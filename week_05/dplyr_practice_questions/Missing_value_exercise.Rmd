@@ -1,0 +1,121 @@
+---
+title: "Missing values exercise"
+output: html_notebook
+---
+
+3 Missing values exercise
+In this exercise we will be looking at the beer calorie data (dataset beer). We saw how to read this delimited data in week 2.
+
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(janitor)
+
+```
+
+
+```{r}
+
+beer <- read_delim("data/beer.txt", delim = ";")
+
+
+```
+
+
+Q1
+
+```{r}
+
+# Find all the observations where the carbohydrates are missing
+
+which(is.na(beer$carbohydrates))
+  
+
+```
+
+
+Q2
+
+```{r}
+
+# Find all the observations where the brand is missing
+
+which(is.na(beer$brand))
+
+
+```
+
+
+# What is different about the observations missing carbohydrates and the observations missing brand? To clean the data should be drop the rows missing brand or the rows missing carbohydrates?
+
+```{r}
+# if we drop NA from carbohydrates then we will loose some brand's usefull information too so it is more logical to drop missing values from brand.
+
+ beer_clean <- 
+  beer %>%
+  drop_na(carbohydrates)
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

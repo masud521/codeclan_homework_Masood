@@ -54,61 +54,28 @@ candies_2017 <- mutate_all(candies_2017, .funs = tolower)
    rename(x100_grand_bar = `100_grand_bar`)
 
 # Reshape the data from wide to long format for all 3 data sets, so that for each candy bar column becomes a row. 
-# Name the column candy  and values into rating 
+# Name the column candies  and values into ratings
+# Select columns going to use analyse data
+ 
 
 pivot_candies_2015 <-
 
 candies_2015 %>%
-pivot_longer(butterfinger:york_peppermint_patties, names_to = "candy", values_to = "rating")
+pivot_longer(butterfinger:york_peppermint_patties, names_to = "candies", values_to = "ratings") %>%
+  select(how_old_are_you, are_you_going_actually_going_trick_or_treating_yourself, candies, ratings)
 
 pivot_candies_2016 <-
   
   candies_2016 %>%
-  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candies", values_to = "ratings") %>%
+  select(are_you_going_actually_going_trick_or_treating_yourself, your_gender, how_old_are_you, which_country_do_you_live_in, candies, ratings)
 
 
 pivot_candies_2017 <-
   
   candies_2017 %>%
-  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candy", values_to = "rating")
-
-
-
-# Removing columns 
-
-# We have some redundant columns. some of these variables which don't contain any useful data. 
-
-
-pivot_candies_2015 <-
-  pivot_candies_2015 %>%
-  select(-please_leave_any_remarks_or_comments_regarding_your_choices)
-
-# All these columns have no useful information so we can remove them. 
-
-pivot_candies_2015 <-
-  pivot_candies_2015 %>%
-  select(-c(4:30))
-
-
-pivot_candies_2016 <-
-  pivot_candies_2016 %>%
-  select(-timestamp)
-
-
-pivot_candies_2016 <-
-  pivot_candies_2016 %>%
-  select(-c(5:22))
-
-
-
-pivot_candies_2017 <-
-  pivot_candies_2017 %>%
-  select(-internal_id)
-
-
-pivot_candies_2017 <-
-  pivot_candies_2017 %>%
-  select(-c(5:16))
+  pivot_longer(x100_grand_bar:york_peppermint_patties, names_to = "candies", values_to = "ratings") %>%
+  select(going_out, gender, age, country, candies, ratings)
 
 
 
@@ -121,7 +88,7 @@ pivot_candies_2015 <-
 
 pivot_candies_2016 <-
   pivot_candies_2016 %>%
-  rename(gender = your_gender, age = how_old_are_you, country = which_country_do_you_live_in)
+  rename(going_out = are_you_going_actually_going_trick_or_treating_yourself, age = how_old_are_you, country = which_country_do_you_live_in, gender = your_gender)
 
 
 # Make new variables 
@@ -148,13 +115,13 @@ candies_2017_data <-
 # counting missing values
 
 candies_2015_data %>%
-  summarise(count = sum(is.na(rating)))
+  summarise(count = sum(is.na(ratings)))
 
 candies_2016_data %>%
-  summarise(count = sum(is.na(rating)))
+  summarise(count = sum(is.na(ratings)))
 
 candies_2017_data %>%
-  summarise(count = sum(is.na(rating)))
+  summarise(count = sum(is.na(ratings)))
 
 
 # Missing values
@@ -174,21 +141,52 @@ bind_rows(candies_2015_data, candies_2016_data, candies_2017_data)
 # now we have a combined data set from 2015, 2016, 2017. 
 # I have notice some discrepancies in country columns which needs to address before we proceed
 
+# 3 countries UK, USA and Canada needs correction
+
 # first create a vector with mispellings
 
-misspellings <- c("united states of america", "alaska", "united states", "ussa", "usa!", "us", "u.s.a.", "usa (i think but it's an election year so who can really tell)","the best one - usa", "america", "merica", "usa! usa!", "usa", "america")
+#USA
 
-# replace misspellings with usa
+misspellings_usa <- c("united states of america", "the united states of america", "alaska", "united states", "ussa", "usa!", "us", "u.s.a.", "usa (i think but it's an election year so who can really tell)","the best one - usa", "america", "'merica", "usa! usa!", "usa",
+                  "usa! usa! usa!","usa!!!!!!", "usaa", "usa? hard to tell anymore..", "usa usa usa usa", "usausausa", "usas", "ahem....amerca", "atlantis", "the united states", "united sates", "united stetes", "united  states of america", 
+                  "united state", "united stated", "united ststes","united statss","united state", "united staes", "united statea", "unied states", "unites states", "units states", "us of a", "the yoo ess of aaayyyyyy", "u.s.", "trumpistan", "u s a", "u s",
+                  "unhinged states", "unite states", "usa usa usa", "the yoo ess of aaayyyyyy", "usa usa usa!!!!","a")
+
+#UK
+
+misspellings_uk <- c("england", "endland", "united kindom", "united kingdom", "u.k.", "ud")
+
+# Canada
+
+misspellings_canada <- c("can", "canada`", "canae")
+
+
+
+# replace misspellings with usa, uk, canada 
 
 halloween_candies <-
 candies_halloween_data %>%
-mutate(country = if_else(country == "united kingdom", "uk", country))
+mutate(country = if_else(country %in% misspellings_usa, "usa", country),
+       country = if_else(country %in% misspellings_uk, "uk", country),
+       country = if_else(country %in% misspellings_canada, "canada", country))
 
-# mutate(country = if_else(country %in% misspellings, country, "usa"))
+
+# use mutate function to change age cloumn to numeric
+
+halloween_candies <-
+halloween_candies %>%
+  mutate(age = as.numeric(age),
+         age = if_else(age > 99, NA_real_, age))
 
 
-filter(halloween_candies, country == 'united kingdom')
+# filter to check 
 
+ filter(halloween_candies, country == "unites states")
+
+
+# now write data in to csv format in clean folder
+
+write_csv(halloween_candies, 'clean_data/halloween_candies.csv')
 
 
 
