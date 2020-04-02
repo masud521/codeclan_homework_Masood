@@ -26,6 +26,7 @@ library(here)
 halloween_candies <- 
   read_csv(here("clean_data/halloween_candies.csv"))
 
+
 ```
 
 
@@ -51,12 +52,15 @@ Q2
 ```{r}
 # What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?
 
+halloween_candies %>%
+   group_by(going_out) %>%
+   summarise(avg_age = mean(age, na.rm = TRUE))
 
 
 
 ```
 
-
+Q3
 
 
 
@@ -65,14 +69,60 @@ Q2
 
   
 halloween_candies %>%
-  group_by(candies, ratings) %>%
   drop_na(ratings) %>%
+  group_by(candies, ratings) %>%
   summarise(candy_ratings = n()) %>%
-  filter(candies != "cadbury_creme_eggs")
+  filter(candy_ratings == max(candy_ratings))
   
   
 
 ```
+
+
+Q4
+
+```{r}
+# How many people rated Starburst as despair
+
+halloween_candies %>%
+  filter(candies == 'starburst') %>%
+  group_by(candies, ratings) %>%
+  drop_na(ratings) %>%
+  summarise(starburst_ratings = n()) %>%
+  filter(ratings == 'despair')
+  
+  
+
+```
+
+Q5
+
+```{r}
+# What was the most popular candy bar by this rating system for each gender in the dataset?
+
+halloween_candies %>%
+  filter(gender == c('male', 'female')) %>%
+  group_by(candies, gender) %>%
+  drop_na(ratings) %>%
+  summarise(popular_ratings = sum())
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
