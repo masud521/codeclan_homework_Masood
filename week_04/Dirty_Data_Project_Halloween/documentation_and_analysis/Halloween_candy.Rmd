@@ -13,7 +13,7 @@ output: html_notebook
 library(tidyverse)
 library(dplyr)
 library(stringr)
-library(janitor)
+library(readr)
 library(here)
 
 ```
@@ -24,10 +24,13 @@ library(here)
 # Load data from first csv file 
 
 halloween_candies <- 
-  read_csv(here("clean_data/halloween_candies.csv"))
+  read_csv(here("clean_data/halloween_candies.csv"), guess_max = 1000001)
+
 
 
 ```
+
+
 
 
 1.4.2 Analysis questions
@@ -38,8 +41,8 @@ Q1
 # What is the total number of candy ratings given across the three years
 
 halloween_candies %>%
+  drop_na()%>%
   group_by(ratings)%>%
-  drop_na(ratings)%>%
   summarise(candy_ratings = n()) %>%
   summarise(total_ratings = sum(candy_ratings))
   
@@ -69,11 +72,12 @@ Q3
 
   
 halloween_candies %>%
-  drop_na(ratings) %>%
-  group_by(candies, ratings) %>%
+  drop_na() %>%
+  group_by(ratings, candies) %>%
   summarise(candy_ratings = n()) %>%
-  filter(candy_ratings == max(candy_ratings))
-  
+  filter(candies != "any_full_sized_candy_bar") %>%
+  filter(candy_ratings == max(candy_ratings)) %>%
+  top_n(1)
   
 
 ```
@@ -85,9 +89,9 @@ Q4
 # How many people rated Starburst as despair
 
 halloween_candies %>%
+  drop_na() %>%
   filter(candies == 'starburst') %>%
   group_by(candies, ratings) %>%
-  drop_na(ratings) %>%
   summarise(starburst_ratings = n()) %>%
   filter(ratings == 'despair')
   
@@ -101,13 +105,46 @@ Q5
 # What was the most popular candy bar by this rating system for each gender in the dataset?
 
 halloween_candies %>%
-  filter(gender == c('male', 'female')) %>%
-  group_by(candies, gender) %>%
-  drop_na(ratings) %>%
-  summarise(popular_ratings = sum())
+  drop_na() %>%
+  filter(gender != "not given") %>%
+  group_by(gender, candies) %>%
+  summarise(candy_ratings = n()) %>%
+  top_n(1)
+
+
 
 ```
 
+Q6
+
+```{r}
+
+# What was the most popular candy bar in each year
+
+halloween_candies %>%
+drop_na(ratings) %>%
+group_by(year, candies) %>%
+summarise(popular_ratings = n()) %>%
+top_n(1)
+
+
+```
+
+Q7 
+
+```{r}
+# What was the most popular candy bar by this rating for people in US, Canada, UK and all other countries
+
+halloween_candies %>%
+drop_na() %>%
+filter(year != 2015) %>%
+group_by(country, candies) %>%
+summarise(candy_ratings = n()) %>%
+arrange(desc(candy_ratings)) %>%
+top_n(1)
+
+
+```
 
 
 

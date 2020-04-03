@@ -9,9 +9,11 @@
 
 library(tidyverse)
 library(janitor)
-library(readxl)
+library(readr)
 library(dplyr)
 library(stringr)
+library(readxl)
+
 
 # Task 4 Halloween Candy data
 # Load data from first csv file 
@@ -152,6 +154,8 @@ misspellings_usa <- c("united states of america", "the united states of america"
                   "united state", "united stated", "united ststes","united statss","united state", "united staes", "united statea", "unied states", "unites states", "units states", "us of a", "the yoo ess of aaayyyyyy", "u.s.", "trumpistan", "u s a", "u s",
                   "unhinged states", "unite states", "usa usa usa", "the yoo ess of aaayyyyyy", "usa usa usa!!!!","a")
 
+usa_states <- c(1,30,32,35,44,45,46,47,51,54)
+
 #UK
 
 misspellings_uk <- c("england", "endland", "united kindom", "united kingdom", "u.k.", "ud")
@@ -167,10 +171,12 @@ misspellings_canada <- c("can", "canada`", "canae")
 halloween_candies <-
 candies_halloween_data %>%
 mutate(country = if_else(country %in% misspellings_usa, "usa", country),
+       country = if_else(country %in% usa_states, "usa", country),
        country = if_else(country %in% misspellings_uk, "uk", country),
        country = if_else(country %in% misspellings_canada, "canada", country))
 
 
+       
 # use mutate function to change age cloumn to numeric
 
 halloween_candies <-
@@ -178,6 +184,13 @@ halloween_candies %>%
   mutate(age = as.numeric(age),
          age = if_else(age > 99, NA_real_, age))
 
+# use mutate fuction to change gender column to "not mentioned"
+
+gender_no <- c("i'd rather not say", "other")
+
+halloween_candies <-
+halloween_candies %>%
+  mutate(gender = if_else(gender %in% gender_no, "not given", gender))
 
 # filter to check 
 
