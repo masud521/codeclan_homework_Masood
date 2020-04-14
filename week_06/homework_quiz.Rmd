@@ -1,0 +1,121 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(prob)
+library(tidyverse)
+
+```
+
+Q1. If I roll a six-sided dice once, what is the probability of getting a number less than 5
+
+```{r}
+one_dice <- rolldie(1)
+
+less_than_5 <- one_dice %>%
+  filter(X1 < 5)
+
+# calculate the probability of less than 5
+prob_less_than_5 <- nrow(less_than_5) / nrow(one_dice)
+
+prob_less_than_5
+
+
+```
+
+Q2. How many outcomes are there in the sample space of an experiment in which we toss three dice?
+
+```{r}
+
+three_dice <- rolldie(3)
+
+# the sample space
+three_dice %>%
+summarise(size_of_s = n())
+
+```
+
+Q 3. In an experiment where we roll four dice:
+
+
+```{r}
+# Roll 4 dice
+
+roll_4_dice <- rolldie(4)
+
+total_roll_4_dice <- 
+roll_4_dice %>%
+nrow()
+
+# how many outcomes are in the event total_equals_5_6_7 (i.e. the total of the four dice equals 5, 6 or 7)
+
+roll_4_dice <- roll_4_dice %>%
+  mutate(total = X1 + X2 + X3 + X4)
+
+
+# total_equals_5
+
+sum_equals_5 <- roll_4_dice %>%
+  filter(total == 5)
+ 
+total_equals_5 <- nrow(sum_equals_5)
+
+# total_equals_6
+
+sum_equals_6 <- roll_4_dice %>%
+  filter(total == 6)
+ 
+total_equals_6 <- nrow(sum_equals_6)
+
+```
+
+prob(event)=num(event outcomes)/num(all outcomes)
+
+```{r}
+# what is the probability of this event?
+
+prob_equals_5 <- total_equals_5 / total_roll_4_dice
+
+prob_equals_5
+
+
+prob_equals_6 <- total_equals_6 / total_roll_4_dice
+
+prob_equals_6
+
+```
+
+Q4 4. Five chairs are placed in a row in a room, along with five people of differing height. The people sit down randomly on the chairs. What is the probability that they sit in order of decreasing height, left to right?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,62 +1,98 @@
-
 library(shiny)
 library(dplyr)
 library(ggplot2)
 library(CodeClanData)
 library(shinyWidgets)
 
+
 ui <- fluidPage(
+  
+  titlePanel("Comparing Importance of Internet Access vs. Reducing Pollution"),
+  
+  
+  # use a gradient in background
+  setBackgroundColor(
+    color = c("#F7FBFF", "#2171B5"),
+    gradient = "radial",
+    direction = c("top", "left")
+  ),
+  
+  
+  sidebarLayout( 
+    sidebarPanel(
+      
+      selectInput("gender",
+                  "Gender",
+                  choices = c(Male = "M", Female = "F")),
+      
+      
+      selectInput("region",
+                  "Region",
+                  choices = unique(students_big$region)),
+      
+      actionButton("update", "Generate Plots and Table")
+      
+      ),
+    
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Plots",
     
     fluidRow(
-        column(3,
-               radioButtons('gender',
-                            'Male or Female Dogs?',
-                            choices = c("Male", "Female"))
-        ),
-        
-        column(3,
-               selectInput("colour",
-                           "Which colour?",
-                           choices = unique(nyc_dogs$colour))
-        ),
-        
-        column(3,
-               selectInput("borough",
-                           "Which Borough?",
-                           choices = unique(nyc_dogs$borough))  
-        ),
-        
-        column(3,
-               selectInput("breed",
-                           "Which Breed?",
-                           choices = unique(nyc_dogs$breed))
+      
+      column(3,
+             
+             plotOutput("internet_access_histogram")),
+      
+      column(3,
+             
+             plotOutput("reducing_pollution_histogram"))
+      
         )
         
     ),
     
-    actionButton("update", "Find dogs!"),
-    
-    tableOutput("table_output")
-    
-)
+    tabPanel("Data",
+             
+             dataTableOutput("table"))
+      
+         ) 
+        )
+    )
+   )
+
+
 
 server <- function(input, output) {
+  
+  filtered_data <- eventReactive(input$update, {
+    students_big %>%
+      filter(gender == input$gender) %>%
+      filter(region == input$region) %>%
+      select(
+        region,gender,
+        importance_internet_access,importance_reducing_pollution)
     
-    dog_data <- eventReactive(input$update,{
-        
-        nyc_dogs %>%
-            filter(gender == input$gender)  %>%
-            filter(colour == input$colour) %>%
-            filter(borough == input$borough) %>%
-            filter(breed == input$breed) %>%
-            slice(1:10)
-        
-    })
+  })
+  
+  output$internet_access_histogram <- renderPlot({
     
-    output$table_output <- renderTable({
-        dog_data()
-    })
+    filtered_data() %>%
+      ggplot() +
+      geom_histogram(aes(x = importance_internet_access)) 
+  })
+  
+  output$reducing_pollution_histogram <- renderPlot({
+    
+    filtered_data() %>%
+      ggplot() +
+      geom_histogram(aes(x = importance_reducing_pollution)) 
+  })
+  
+  output$table <- renderDataTable({
+    filtered_data()
+  })
+  
 }
 
 shinyApp(ui = ui, server = server)
-

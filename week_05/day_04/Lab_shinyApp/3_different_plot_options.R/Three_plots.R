@@ -40,20 +40,22 @@ ui <- fluidPage(
         
         output$Plot <- renderPlot({
             if (input$Plot == "Bar"){
-                students_big %>%
-                    ggplot() +
-                    geom_bar(aes(x = gender, fill = gender))}
+                plot <-
+                  ggplot(students_big) +
+                  geom_bar(aes(x = gender, fill = gender))}
             
             if (input$Plot == "Pie chart"){
-                students_big %>%
-                    ggplot() +
+                plot <-
+                    ggplot(students_big) +
                     geom_bar(aes(x = 1, fill = gender)) +
                     coord_polar("y")}
             
             if (input$Plot == "Stacked Bar"){
-                students_big %>%
-                    ggplot() +
-                    geom_bar(aes(x = 1, fill = gender))}
+                plot <-
+                    ggplot(students_big) +
+                    geom_bar(aes(x = 1, fill = gender))
+            }
+          plot
         })
         
     }
