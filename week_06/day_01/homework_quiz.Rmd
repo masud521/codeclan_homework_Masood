@@ -6,6 +6,7 @@ output: html_notebook
 
 ```{r}
 library(prob)
+library(gtools)
 library(tidyverse)
 
 ```
@@ -48,27 +49,21 @@ roll_4_dice <- rolldie(4)
 
 total_roll_4_dice <- 
 roll_4_dice %>%
-nrow()
+mutate(total = rowSums(.))
 
 # how many outcomes are in the event total_equals_5_6_7 (i.e. the total of the four dice equals 5, 6 or 7)
 
-roll_4_dice <- roll_4_dice %>%
-  mutate(total = X1 + X2 + X3 + X4)
+roll_4_dice <- 
+roll_4_dice %>%
+mutate(total = rowSums(.))
 
 
-# total_equals_5
+# total_equals 5 and 7
 
-sum_equals_5 <- roll_4_dice %>%
-  filter(total == 5)
- 
-total_equals_5 <- nrow(sum_equals_5)
+S_total_between_5_7 <- roll_4_dice %>%
+  filter(total %in% c(5, 6, 7))
 
-# total_equals_6
-
-sum_equals_6 <- roll_4_dice %>%
-  filter(total == 6)
- 
-total_equals_6 <- nrow(sum_equals_6)
+nrow(S_total_between_5_7)
 
 ```
 
