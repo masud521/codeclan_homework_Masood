@@ -92,9 +92,8 @@ results
 Pipe results to mutate() to add a new variable popn_param_in_ci which will be TRUE if the population parameter we calculated earlier is between lower and upper, and FALSE otherwise
 
 ```{r}
-
-results %>%
-  mutate(popn_param_in_ci = TRUE < lower | TRUE < upper)
+results <- results %>%
+  mutate(popn_param_in_ci = lower <= mean_sale_price$mean_sale_price & mean_sale_price$mean_sale_price <= upper)
 
 ```
 
@@ -103,12 +102,8 @@ Perform an appropriate summarise() to determine the proportion of CIs that conta
 
 ```{r}
 
-results%>%
-  summarise(
-    mean = mean(sale_price),
-    lower_bound = quantile(mean_sale_price, probs = 0.025),
-    upper_bound = quantile(mean_sale_price, probs = 0.975)
-  )
+results %>%
+  summarise(proportion_CI_containing_popn_param = mean(popn_param_in_ci))
 
 ```
 
