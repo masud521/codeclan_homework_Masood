@@ -1,0 +1,128 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+
+library(tidyverse)
+library(infer)
+library(janitor)
+
+
+```
+
+
+```{r}
+
+data("msleep")
+
+```
+
+Jabberwockies sleep for around 7 hours a night, on average. Perform an appropriate statistical test to determine whether the mean sleep_total in the sampled population of animal types differs from the typical value for jabberwockies.
+
+```{r}
+
+total_sleep <- msleep %>%
+  summarise(
+    mean_sleep_total = mean(sleep_total)
+  )
+
+total_sleep
+
+```
+
+```{r}
+
+mean_sleep <- msleep %>%
+  rep_sample_n(size = 50, reps = 1) %>%
+  ungroup() %>%
+  summarise(
+    mean_sleep_total = mean(sleep_total)
+  )
+
+mean_sleep
+
+```
+
+From the above statistical test, we can significant difference between the mean of total sleep and sleeping hours of jabberwockies
+
+
+```{r}
+
+unique(msleep$vore)
+
+```
+
+Perform an appropriate statistical test to determine whether omnivores sleep for significantly longer than herbivores, on average.
+
+```{r}
+
+
+```
+
+
+
+Perform an appropriate statistical test to determine whether the proportion of domesticated animal types in the population of animal types is greater than 5%. 
+
+```{r}
+
+is_domesticated <- msleep %>%
+  mutate(conservation = ifelse(conservation == "domesticated", "domesticated", "not_domesticated"))
+
+```
+
+
+```{r}
+
+null_distribution <- is_domesticated %>%
+  filter(!is.na(conservation)) %>%
+  specify(response = conservation, success = "domesticated") %>% 
+  hypothesize(null = "point", p = 0.05) %>%
+  generate(reps = 1000, type = "simulate") %>%
+  calculate(stat = "prop") 
+
+head(null_distribution) 
+
+```
+
+
+1.2 Hypothesis testing - interpretation
+1.2.1 Defining the Hypothesis
+
+1. Coffee shop problem. Significance level: 0.05, calculated p-value: 0.07
+
+Since our p-value 0.07 is greater than α=0.05 we fail to reject H0. There is not enough evidence to say that marketing advertisement have significantly increase the awarness.The p-value approached the borderline of significance.
+
+
+2. Website company problem. Significance level: 0.01, p-value: 0.006
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
