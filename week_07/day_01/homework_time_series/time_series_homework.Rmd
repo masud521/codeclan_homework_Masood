@@ -1,0 +1,217 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+
+library(dplyr)
+library(lubridate)
+library(tidyverse)
+library(tsibble)
+library(tsibbledata)
+library(feasts)
+
+library(nycflights13)
+
+```
+
+
+```{r}
+
+
+date1 <- ymd_hms("2017-04-22 22:01:18")
+date2 <- ymd_hms("2001-11-07 10:09:56")
+
+```
+
+Question 1
+
+Extract the different components (year, month, mday, yday, wday) from the variable date1. Add the labels to the month and do not abbreviate the month labels. 
+
+
+```{r}
+
+year(date1)
+month(date1)
+mday(date1)
+yday(date1)
+wday(date1)
+
+month(date1, label = TRUE, abbr = FALSE)
+
+
+
+```
+
+Question 2
+
+Add 14 days to your date1 variable and store it in a variable called next_fortnight. Take away 10 years from your date2 variable, and store it in previous_decade.
+
+
+```{r}
+
+next_fortnight <- date1 + dweeks(2)
+
+previous_decade <- date2 - dyears(10)
+
+```
+
+Question 3
+
+Create a variable called this_year which contains today’s date. Then create an interval object which uses this_year and the previous_decade variable you made above. Store it in interval_years. Hint: you’ll need to use lubridate::interval in order to get the right function, as tsibble has one too
+
+```{r}
+this_year <- now()
+
+interval_years <- lubridate::interval(this_year, previous_decade)
+
+
+```
+
+
+Question 4
+
+Change the time zone of both your date variables to “America/New_York”, and call them nyc_date1 and nyc_date2. 
+
+
+```{r}
+nyc_date1 <- with_tz(date1, tzone = "America/New_York")
+
+nyc_date2 <- with_tz(date1, tzone = "America/New_York")
+
+
+```
+
+Question 5
+
+Use the flights data from the nycflights13 dataset. Make a date-time column called departure_date from the year, month, day, hour, and minute variables in the flights tibble. 
+
+```{r}
+
+flights %>%
+  mutate(
+   departure_date = make_datetime(year = year, month = month, day = day, hour = hour, min = minute))
+
+```
+
+
+Time series familiarity
+
+Question 6
+
+Start with the weather data from the nycflights13 package. Select all the variables related to temperature, humidity, and precipitation, and pick out the key and index variables. Have a look at your data, and write a small description of the time series you observe. 
+
+
+```{r}
+weather <-
+weather %>%
+  select(origin, time_hour, temp, humid, precip)
+
+weather
+
+
+```
+
+description
+
+index: this identifies the time component of the data. Usually this will be a date or datetime.
+
+key: keys are used within tsibble to uniquely identify related time series in a tidy structure.
+
+
+The time index which is preserved in the Time variable is the defining characteristic of time series data. In this particular case,the origin variable is the identifier, which is passed to the argument key in as_tsibble() and when combined with our index (Time), this uniquely identifies the observation.
+
+
+
+Question 7
+ 
+
+```{r}
+# Change the weather data into a tsibble
+
+weather_tsbl <- as_tsibble(weather, key = origin)
+
+weather_tsbl
+
+
+
+```
+
+Question 8
+
+Add a year and month column to your weather data, and create a basic line plot which shows the temperature data from each airport over time. Have a think back to what you learned in visualisation week, and think about whether plotting the whole time series in one go is adequate here? Write down your suggestions for what could be done to make a better and more informative plot. 
+
+
+```{r}
+
+weather %>%
+  mutate("year", "month")
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
