@@ -1,0 +1,107 @@
+---
+title: "R Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(janitor)
+library(ggplot2)
+library(infer)
+
+```
+
+
+
+load the data NHS boarder region
+
+
+```{r}
+
+opendata_scottishborders <- read_csv("opendata_scottishborders.csv") 
+
+names(opendata_scottishborders)
+
+```
+
+
+```{r}
+
+scottishborders_data <- opendata_scottishborders %>%
+                        filter(cancer_site == "All cancer types") %>%
+                        filter(sex == c("Male", "Female"))
+
+
+```
+
+
+
+
+```{r}
+library(ggthemes)
+
+ggplot(scottishborders_data) +
+  aes(x = year, y = incidences_all_ages, color = sex) +
+  geom_line() +
+  xlab("Year")+
+  ylab("Cancer Incidences all ages") +
+    ggtitle("Cancer Treatment NHS Borders",
+    subtitle = "1994 - 2018")
+
+
+
+```
+
+
+```{r}
+
+common_cancers <- opendata_scottishborders %>%
+  filter(cancer_site != "All cancer types") %>%
+  filter(sex == c("Male", "Female")) %>%
+  group_by(cancer_site) %>%
+  summarise(total_incidences = sum(incidences_all_ages)) %>%
+  arrange(desc(total_incidences)) %>%
+  top_n(10)
+ 
+
+ggplot(common_cancers) +
+  aes(x = cancer_site, y = total_incidences) +
+  geom_col()+
+  coord_flip()+
+    xlab("Total Incidences")+
+  ylab("Most common 20 cancers") +
+    ggtitle("Most common 20 cancers in NHS Borders",
+    subtitle = "1994 - 2018")
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

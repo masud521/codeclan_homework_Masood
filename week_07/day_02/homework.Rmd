@@ -14,12 +14,15 @@ library(feasts)
 ```
 
 
-1 Question 1
 
-Load in the nyc_bikes data from the tsibbledata package. Have an initial look at it to see what you’re working with. Create three new columns: one that stores only the year the bike was used, one that stores only the month the bike was used, and one that stores the date. Use the data stored in start_time to create these new columns.
+Load in the nyc_bikes data from the tsibbledata package. 
 
 ```{r}
 nyc_bikes <- nyc_bikes
+
+names(nyc_bikes)  
+dim(nyc_bikes)
+head(nyc_bikes,3)
 
 ```
 
@@ -27,56 +30,63 @@ nyc_bikes <- nyc_bikes
 
 
 ```{r}
-start_time <-
+nyc_bikes_year <-
 nyc_bikes %>%
+  select(-gender, -type, -birth_year) %>%
   mutate(year = year  (start_time),
-         month = month(start_time),
+         month = month(start_time, label = TRUE),
          date  = date(start_time))
 
 
 ```
 
 
-2 Question 2
-
-Summarise the number of bike hire counts by month. Make a plot of this data. *Hint: remember that to group time series (tsibble) data, you need to use index_by instead of group_by before your summarise function. What does this plot tell you about the time series? Do you think this downsampled data would be adequate to build a forecast with?
+Summarise the number of bike hire counts by month. Make a plot of this data. 
 
 ```{r}
 
 nyc_bikes_month <-
-start_time %>%
+nyc_bikes_year %>%
 index_by(month) %>%
-  summarise(sum = n())
+  summarise(count = n())
 
 
   ggplot(nyc_bikes_month) +
-  geom_line(aes(x = month, y = sum), color = "red")
+  aes(x = month, y = count) +
+  geom_point() + 
+  geom_line(group = 1) +              
+  ggtitle("Bike hire in NYC") + 
+  xlab("Month") + ylab ("total count")
   
 
 ```
 
-Question 3
 
-Now Summarise the number of bike hire counts by date. Make a plot of this new aggregated data. What does this plot tell you about the time series? Would this data be preferrable for time series forecasting compared to the monthly data? 
+
+Summarise the number of bike hire counts by date. Make a plot of this new aggregated data. 
 
 ```{r}
 
 nyc_bikes_date <-
-start_time %>%
+nyc_bikes_year %>%
 index_by(date) %>%
   summarise(count = n())
 
 
-  ggplot(nyc_bikes_date) +
-  geom_line(aes(x = date, y = count), color = "red")
+    ggplot(nyc_bikes_date) +
+  aes(x = date, y = count) +
+  geom_point() + 
+  geom_line(group = 1) +              
+  ggtitle("Bike hire in NYC") + 
+  xlab("Month") + ylab ("total count")
+
 
 
 
 ```
 
-4 Question 4
 
-Let’s begin to build a model. For this, we will use the downsampled by date dataset we created above in question 3. If you haven’t managed to get the code to do this, you can find it below.
+build a model. For this, we will use the downsampled by date dataset we created above.
 
 ```{r}
 # fill the gaps with median
@@ -101,10 +111,9 @@ fit
 
 ```
 
-5 Question 5
 
-Now we have our model fit, build a forecast to predict bike use over the next four months. Plot your models alongside your data.
-Hint: forecast parameter would be roughly 120 (30 days x 4 months)
+Forecasting to predict bike use over the next four months bu using model fit above. Plot your models alongside your data.
+
 
 ```{r}
 
@@ -126,35 +135,60 @@ forecast_bike_use %>%
 
 
 
-Question 6
+```{r}
 
-Test your model accuracy : choose a training data set from your main dataset, build a forecast on the training set, and then plot the training set forecast against the real data. Calculate model accuracy.
+# create a shorter interval to plot: years after 1980
+bikes_shorter <- nyc_bikes_filled %>%
+  mutate(month = month(date)) %>%
+  filter(month >= 8)
+
+# check one model at a time
+forecast_bike_use %>%
+  filter(.model == "snaive") %>%
+  autoplot(bikes_shorter, level = NULL)
+
+
+```
+
+
+
+model accuracy test, build a forecast on the training set, and then plot the training set forecast against the real data. Calculate model accuracy.
 
 
 ```{r}
 
-# Set training data from 2018-04-01 to 2018-08-31
+# Set training data from Jan to Nov
 
 train <- nyc_bikes_filled %>%
-  filter_index("2018-04-01" ~ "2018-08-31") 
+  mutate(month = month(date)) %>%
+  filter(month <= 10) 
 
 
 # run the model on the training set 
-fit_test <- train %>%
+bikes_fit_test <- train %>%
   model(
     mean_model = MEAN(count),
     arima = ARIMA(count),
     snaive = SNAIVE(count))
 
+bikes_fit_test
+
+```
+
+
+```{r}
+
+# forecast from the training set
+forecast_bike_use <- bikes_fit_test %>%
+  fabletools::forecast(h = 12*6)
+
 # Plot forecasts against actual values
 forecast_bike_use %>%
   autoplot(train, level = NULL) +
-    autolayer(filter_index(aus_production, "2018-09-01" ~ .), color = "black") +
-   ggtitle("Forecasts for bikes usage") +
-  xlab("month") +
-  guides(colour = guide_legend(title = "Forecast"))
+    autolayer(nyc_bikes_filled, color = "black")
 
 ```
+
 
 Question 7
 
@@ -162,15 +196,74 @@ Look at your forecast plots and accuracy values. Describe your results. Are your
 
 
 
+
+orecast isn’t great. This could be for several reasons:
+
+    not enough data
+    something is affecting it
+    wrong model choice
+
+I’d collect more data if possible - we only have a year’s worth so far.
+
+
+ggplot (geom_point) which plots the start longitude and latitudes of each bike and facet for each bike_id. 
+
+
 ```{r}
 
-accuracy_model <- forecast_bike_use %>%
-  accuracy(nyc_bikes_filled)
+library(ggplot2)
 
-accuracy_model %>% 
-  arrange(RMSE)
+# make the month 
+nyc_bikes_spatial <- nyc_bikes %>%
+  select(bike_id, start_time, start_lat, start_long, end_lat, end_long) %>%
+  mutate(month = month(start_time, label = TRUE))
+
+# make a faceted plot : start points
+ggplot(nyc_bikes_spatial) + 
+  geom_point(aes(x=start_lat, y = start_long, colour = month)) +
+  facet_wrap(~bike_id) +
+  ggtitle("NYC bikes: start points") +
+  xlab("Latitude") + ylab("Longitude")
 
 ```
+
+
+
+
+```{r}
+# a faceted plot : end points
+
+ggplot(nyc_bikes_spatial) + 
+  geom_point(aes(x=end_lat, y = end_long, colour = month)) +
+  facet_wrap(~bike_id) +
+  ggtitle("NYC bikes : end points") +
+  xlab("Latitude") + ylab("Longitude")
+
+```
+
+
+
+
+```{r}
+# a leaflet plot
+library(leaflet)
+
+# leaflet map
+leaflet(nyc_bikes_spatial) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~start_long,
+                   lat = ~start_lat) %>%
+    setView(-74.00, 40.71, zoom = 12) %>%
+  addProviderTiles("CartoDB.Positron")
+
+```
+
+
+
+
+
+
+
 
 
 
