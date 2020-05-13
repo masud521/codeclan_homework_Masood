@@ -1,0 +1,152 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+
+library(tidyverse)
+library(GGally)
+library(ggiraphExtra)
+
+```
+
+Load the diamonds.csv data set and undertake an initial exploration of the data
+
+```{r}
+
+diamonds <- read_csv("diamonds.csv")
+
+```
+
+We expect the carat of the diamonds to be strong correlated with the physical dimensions x, y and z. Use ggpairs() to investigate correlations between these four variables.
+
+```{r}
+
+
+ggpairs(diamonds)
+
+```
+
+So, we do find significant correlations. Let’s drop columns x, y and z from the dataset, in preparation to use only carat going forward.
+
+```{r}
+
+diamonds <- diamonds %>%
+            select(-x, -y, -z)
+
+```
+
+
+We are interested in developing a regression model for the price of a diamond in terms of the possible predictor variables in the dataset.
+
+Use ggpairs() to investigate correlations between price and the predictors 
+
+```{r}
+
+ggpairs(diamonds)
+
+```
+
+Perform further ggplot visualisations of any significant correlations you find
+
+```{r}
+
+diamonds %>%
+ggplot(aes(y = price)) + 
+  geom_boxplot()
+
+```
+
+5. Shortly we may try a regression fit using one or more of the categorical predictors cut, clarity and color, so let’s investigate these predictors:
+
+1.1. Investigate the factor levels of these predictors. How many dummy variables do you expect for each of them?
+
+```{r}
+# Values
+diamonds %>%
+  distinct(clarity, color, cut)
+
+
+
+```
+
+there are diffrent distinct values for the cut, color and clarity column
+
+Use the dummy_cols() function in the fastDummies package to generate dummies for these predictors and check the number of dummies in each case.
+
+```{r}
+library(fastDummies)
+
+diamond_cut_dummy <- diamonds %>%
+  dummy_cols(select_columns = "cut", remove_first_dummy = TRUE) %>%
+  dummy_cols(select_columns = "clarity", remove_first_dummy = TRUE) %>%
+  dummy_cols(select_columns = "color", remove_first_dummy = TRUE) 
+
+diamond_cut_dummy
+
+```
+
+6. Going forward we’ll let R handle dummy variable creation for categorical predictors in regression fitting (remember lm() will generate the correct numbers of dummy levels automatically, absorbing one of the levels into the intercept as a reference level)
+
+i) First, we’ll start with simple linear regression. Regress price on carat and check the regression diagnostics
+
+```{r}
+
+model <- lm(formula = price ~ carat, data = diamond_cut_dummy)
+par(mfrow = c(2, 2))
+
+plot(model)
+
+```
+
+```{r}
+summary(model)
+
+```
+
+The regressions doesn't seem too bad, although some evidence of rather mild heteroscedasticity in the Scale-Location plot.
+
+The r2 value is 0.8439, and the residual standard error is 1549. To put the latter in context, let’s see the boxplot of volume.
+
+```{r}
+diamond_cut_dummy %>%
+  ggplot(aes(y = price))+
+  geom_boxplot()
+
+```
+
+Run a regression with one or both of the predictor and response variables log() transformed and recheck the diagnostics. Do you see any improvement?
+
+```{r}
+
+model2 <- lm(formula = price ~ carat + color + cut, data = diamond_cut_dummy)
+
+model2
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
