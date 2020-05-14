@@ -25,8 +25,7 @@ We expect the carat of the diamonds to be strong correlated with the physical di
 
 ```{r}
 
-
-ggpairs(diamonds)
+ggpairs(diamonds[,c("carat", "x", "y", "z")])
 
 ```
 
@@ -34,8 +33,10 @@ So, we do find significant correlations. Let’s drop columns x, y and z from th
 
 ```{r}
 
-diamonds <- diamonds %>%
+diamonds_tidy <- diamonds %>%
             select(-x, -y, -z)
+
+diamonds_tidy
 
 ```
 
@@ -46,19 +47,46 @@ Use ggpairs() to investigate correlations between price and the predictors
 
 ```{r}
 
-ggpairs(diamonds)
+ggpairs(diamonds_tidy)
 
 ```
+carat is strongly correlated with price. Boxplots of price split by cut, color and particularly clarity also show some variation.
+
 
 Perform further ggplot visualisations of any significant correlations you find
 
 ```{r}
 
-diamonds %>%
-ggplot(aes(y = price)) + 
+diamonds_tidy %>%
+  ggplot(aes(x = carat, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+```{r}
+diamonds_tidy %>%
+  ggplot(aes(x = cut, y = price)) +
   geom_boxplot()
 
 ```
+
+```{r}
+diamonds_tidy %>%
+  ggplot(aes(x = color, y = price)) +
+  geom_boxplot()
+
+```
+
+
+```{r}
+diamonds_tidy %>%
+  ggplot(aes(x = clarity, y = price)) +
+  geom_boxplot()
+
+```
+
+
 
 5. Shortly we may try a regression fit using one or more of the categorical predictors cut, clarity and color, so let’s investigate these predictors:
 
@@ -66,8 +94,11 @@ ggplot(aes(y = price)) +
 
 ```{r}
 # Values
-diamonds %>%
-  distinct(clarity, color, cut)
+unique(diamonds_tidy$cut)
+
+unique(diamonds_tidy$clarity)
+
+unique(diamonds_tidy$color)
 
 
 
@@ -80,12 +111,9 @@ Use the dummy_cols() function in the fastDummies package to generate dummies for
 ```{r}
 library(fastDummies)
 
-diamond_cut_dummy <- diamonds %>%
-  dummy_cols(select_columns = "cut", remove_first_dummy = TRUE) %>%
-  dummy_cols(select_columns = "clarity", remove_first_dummy = TRUE) %>%
-  dummy_cols(select_columns = "color", remove_first_dummy = TRUE) 
+diamonds_dummies <- dummy_cols(diamonds, select_columns = c("cut", "clarity", "color"), remove_first_dummy = TRUE)
 
-diamond_cut_dummy
+glimpse(diamonds_dummies)
 
 ```
 
@@ -95,8 +123,8 @@ i) First, we’ll start with simple linear regression. Regress price on carat an
 
 ```{r}
 
-model <- lm(formula = price ~ carat, data = diamond_cut_dummy)
-par(mfrow = c(2, 2))
+model <- lm(formula = price ~ carat, data = diamonds_tidy)
+
 
 plot(model)
 
@@ -107,24 +135,19 @@ summary(model)
 
 ```
 
-The regressions doesn't seem too bad, although some evidence of rather mild heteroscedasticity in the Scale-Location plot.
+The residuals show systematic variation, significant deviation from normality and heteroscedasticity.
 
 The r2 value is 0.8439, and the residual standard error is 1549. To put the latter in context, let’s see the boxplot of volume.
 
-```{r}
-diamond_cut_dummy %>%
-  ggplot(aes(y = price))+
-  geom_boxplot()
 
-```
 
-Run a regression with one or both of the predictor and response variables log() transformed and recheck the diagnostics. Do you see any improvement?
+1.2 Run a regression with one or both of the predictor and response variables log() transformed and recheck the diagnostics. Do you see any improvement?
 
 ```{r}
 
-model2 <- lm(formula = price ~ carat + color + cut, data = diamond_cut_dummy)
+model2_logx <- lm(price ~ log(carat), data = diamonds_tidy)
 
-model2
+plot(model2_logx)
 
 ```
 
