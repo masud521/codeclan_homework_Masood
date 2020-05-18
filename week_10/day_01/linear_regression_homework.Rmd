@@ -59,7 +59,7 @@ plot
 
 
 ```
-Some of the labels overlap, but that’s OK as we’re looking for outliers, which are likely to occur in isolation. Points 5 and 18 both look like outliers, and we might predict point 5 to be ‘influential’ as it has high leverage, and point 18
+Points 5 and 18 both look like outliers, and we might predict point 5 to be ‘influential’ as it has high leverage, and point 18
 
 to be ‘non-influential’ given it has low leverage.
 

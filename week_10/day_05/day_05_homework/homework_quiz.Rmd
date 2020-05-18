@@ -1,0 +1,131 @@
+---
+title: "Homework Quiz"
+output: html_notebook
+---
+
+Homework Quiz
+
+1. I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+A. fitting well
+
+2. If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+A. lower AIC is better so I choose 33,559
+
+3. I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+
+A. lower r-squared: 0.44 value for a good model.
+
+
+4. I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+
+A. overfit
+
+5. How does k-fold validation work?
+
+A. It ensures that every observation from the original dataset has the chance of appearing in training and test set
+
+
+6.What is a validation set? When do you need one?
+
+A. Validation set is used for determining the parameters of the model and only need to avoid over-fitting problems
+
+7. Describe how backwards selection works.
+
+A. In the backward method, all the predictor varaibles which were added and do not (significantly) predict anything on the dependent measure are removed from the model one by one.
+
+8. Describe how best subset selection works.
+
+A. It compares all possible models using a specified set of predictors, and displays the best-fitting models.
+
+9. It is estimated on 5% of model projects end up being deployed. What actions can you take to maximise the likelihood of your model being deployed?
+
+
+
+10. What metric could you use to confirm that the recent population is similar to the development population?
+
+11. How is the Population Stability Index defined? What does this mean in words?
+
+A. Population stability Index (PSI) gives you a measure of how much the population has increased over a period of time. It indicates whether a scorecard has degraded over a period of time.
+
+12. Above what PSI value might we need to start to consider rebuilding or recalibrating the model
+
+PSI can be applied at a score level, by binning the scores. Binning meaning, transforming the numeric characteristic into a categorical one as well as re-grouping and consolidating the categorical characteristics.
+
+13. What are the common errors that can crop up when implementing a model?
+
+the following erros should be avoided 
+
+1. Not Understanding the Business Use Case
+2. Lack of Data Integrity
+3. Too Many or Too Few Variables
+4. Model Testing and Evaluation Errors
+
+
+14. After performance monitoring, if we find that the discrimination is still satisfactory but the accuracy has deteriorated, what is the recommended action?
+
+
+15. Why is it important to have a unique model identifier for each model?
+
+
+16. Why is it important to document the modelling rationale and approach?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

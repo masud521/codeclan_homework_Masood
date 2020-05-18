@@ -1,0 +1,159 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(modelr)
+library(janitor)
+library(dplyr)
+
+# visualisation packages
+library(ggiraphExtra)
+library(GGally)
+
+```
+
+```{r}
+ avocado <- read_csv("data/avocado.csv")
+ data_dic <- read_csv("data/data_dict.txt")
+
+head(avocado)
+
+```
+
+
+```{r}
+glimpse(avocado)
+
+```
+
+
+
+
+```{r}
+avocado_tidy <- avocado %>%
+  select(-Date, - region) %>%
+  mutate(type = as.factor(type)) %>%
+  rename(total_volume = 3, plu_4046 = 4, plu_4225 = 5, plu_4770 = 6)
+
+
+glimpse(avocado_tidy)
+```
+
+
+
+First predictor
+
+Now, our aim is to build a regression model for the avocado response variable in terms of the multiple potential predictors held in the data frame. Let’s have a look at the associations of the predictors with prestige and with each other.
+
+We wnt to build an explanatory model
+
+```{r}
+
+avocado_tidy %>%
+  ggpairs(aes(color = type, alpha = 0.5))
+  
+
+```
+
+
+Now comes the manual model building part. Let’s build seperate models and choose between them on the basis of r2
+
+and diagnostics.
+
+Let’s start with average price
+
+```{r}
+# build a model which tries to predict average price from total volume
+
+mod1a <- lm(formula = AveragePrice ~ total_volume, data = avocado_tidy)
+mod1a
+
+```
+This equation tells us that the predicted averageprice will vary decrease by 0.00000002  for every one unit increase in totalvolume.
+
+We can then use the summary function to provide more information:
+
+```{r}
+summary(mod1a)
+
+```
+
+So, what does this tell us?
+
+It tells us that our r2
+value is really low (0.037) and so we can explain on 3% of the variance.So that’s not the most perfect prediction out there.
+
+
+```{r}
+
+# set our plotting parameter limits (2x2 graph)
+par(mfrow = c(2, 2)) 
+
+# plot
+plot(mod1a)
+
+```
+Our residuals vs fitted plot seems to capture the systematic variation well, and the normal Q-Q plot shows a little deviation from normality. Nothing too major here.
+
+```{r}
+#type
+
+model1b <- lm(formula = AveragePrice ~ type, data = avocado_tidy)
+
+ summary(model1b)
+
+```
+
+model1b shows higher r-squared value around 37% significantly higher than first predictor
+
+```{r}
+
+par(mfrow = c(2, 2))
+
+plot(model1b)
+```
+
+adding more predictors
+
+
+```{r}
+
+model2a <- lm(formula = lm(formula = AveragePrice ~ type + plu_4225 + plu_4770, data = avocado_tidy))
+
+summary(model2a)
+
+```
+
+R-squared value is 38% which is only 1% higher than type predictor 
+
+lets include year as well 
+
+```{r}
+model2b <- lm(formula = lm(formula = AveragePrice ~ type + plu_4225 + plu_4770 + year, data = avocado_tidy))
+
+summary(model2b)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

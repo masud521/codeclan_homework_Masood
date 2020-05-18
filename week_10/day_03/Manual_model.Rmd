@@ -6,7 +6,7 @@ output: html_notebook
 ```{r}
 
 library(tidyverse)
-library(lubridate)
+library(modelr)
 library(GGally)
 library(ggplot2)
 
@@ -15,36 +15,31 @@ library(ggplot2)
 
 ```{r}
 
-house <- read_csv("data/kc_house_data.csv")
+houses <- read_csv("data/kc_house_data.csv")
 
 ```
 
 You might like to think about removing some or all of date, id, sqft_living15, sqft_lot15 and zipcode (lat and long provide a better measure of location in any event).
 
+
+
 ```{r}
-house_tidy <-
-house %>%
-  select(-c(date, id, sqft_living15, sqft_lot15, zipcode))
+
+# tidy up data. In particular treat condition and grade as factor, as they are
+# ordinal categorical
+houses_tidy <- houses %>%
+  select(-c("id", "date", "sqft_living15", "sqft_lot15", "zipcode")) %>%
+  mutate(waterfront = as.logical(waterfront)) %>%
+  mutate(renovated = yr_renovated != 0) %>%
+  select(-"yr_renovated") %>%
+  mutate(condition = as_factor(condition)) %>%
+  mutate(grade = as_factor(grade))
+
+glimpse(houses_tidy)
 
 ```
 
 
-```{r}
-houses_tidy_numeric <- house_tidy %>%
-  select_if(is.numeric)
-
-houses_tidy_nonnumeric <- house_tidy %>%
-  select_if(function(x) !is.numeric(x))
-
-houses_tidy_nonnumeric$price <- house_tidy$price
-
-```
-
-```{r}
-ggpairs(houses_tidy_numeric)
-ggpairs(houses_tidy_nonnumeric)
-
-```
 
 
 

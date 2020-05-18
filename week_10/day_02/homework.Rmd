@@ -29,7 +29,7 @@ ggpairs(diamonds[,c("carat", "x", "y", "z")])
 
 ```
 
-So, we do find significant correlations. Let’s drop columns x, y and z from the dataset, in preparation to use only carat going forward.
+There is significant correlations. Let’s drop columns x, y and z from the dataset, in preparation to use only carat going forward.
 
 ```{r}
 
@@ -150,6 +150,71 @@ model2_logx <- lm(price ~ log(carat), data = diamonds_tidy)
 plot(model2_logx)
 
 ```
+
+```{r}
+mod2_logy <- lm(log(price) ~ carat, data = diamonds_tidy)
+
+plot(mod2_logy)
+
+```
+
+```{r}
+
+mod2_logxlogy <- lm(log(price) ~ log(carat), data = diamonds_tidy)
+plot(mod2_logxlogy)
+
+```
+
+Log transformation of both variables is required to get close to satisfying the regression assumptions.
+
+1.3 Let’s use log() transformations of both predictor and response. Next, experiment with adding a single categorical predictor into the model. Which categorical predictor is best? [Hint - investigate r2 values]
+
+
+```{r}
+
+mod3_cut <- lm(log(price) ~ log(carat) + cut, data = diamonds_tidy)
+summary(mod3_cut)
+
+```
+
+
+```{r}
+
+mod3_color <- lm(log(price) ~ log(carat) + color, data = diamonds_tidy)
+
+summary(mod3_color)
+
+```
+
+```{r}
+
+mod3_clarity <- lm(log(price) ~ log(carat) + clarity, data = diamonds_tidy)
+
+summary(mod3_clarity)
+
+```
+
+clarity leads to a model with highest r^2, all predictors are significant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
