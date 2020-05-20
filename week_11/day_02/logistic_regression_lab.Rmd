@@ -1,0 +1,178 @@
+---
+title: "Logistic regression lab"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+
+```
+
+
+
+1. Read in the telecomms_churn.xlsx dataset, do initial data tidying and then explore its contents (try the readxl ppackage). Examine the relationships between the churn variable and other possible predictor variables, looking for significant relationships.
+
+
+```{r}
+
+telecomms_churn <- read_xlsx("telecomms_churn.xlsx")
+
+glimpse(telecomms_churn)
+
+```
+
+2. Convert all character columns to factor columns (hint consider mutate_if() for this). Convert senior_citizen to a meaningful factor column as well.
+
+```{r}
+
+telecomms_clean <-
+  telecomms_churn %>%
+  mutate(gender = as.factor(gender), 
+  SeniorCitizen = factor(SeniorCitizen, levels = c(0,1), labels = c("No", "Yes")),
+  Partner       = as.factor(Partner),
+  Dependents    = as.factor(Dependents),
+  PhoneService  = as.factor(PhoneService),
+  InternetService = as.factor(InternetService),
+  Contract      = as.factor(Contract),
+  Churn       =   as.factor(Churn)) %>%
+  select(-customerID) %>%
+  na.omit()
+  
+
+glimpse(telecomms_clean)
+
+```
+
+
+3. Let’s perform logistic regression using the churn column as the binary dependent variable. Create three separate single predictor logistic regression models choosing from amongst the promising predictor columns you found in your analysis above. Try to have at least one continuous predictor, and at least one categorical predictor. Check that the coefficient of the single predictor in each model is statistically significant.
+
+first try with continuous predictor Monthly charges
+
+```{r}
+
+telecomms_clean_logreg_model <- glm(formula = Churn ~ MonthlyCharges, data = telecomms_clean, family = binomial(link = 'logit'))
+
+telecomms_clean_logreg_model
+
+
+
+```
+
+we can use multiple predictors continous and categorical predictor
+
+```{r}
+
+telecomms_clean_multi_logreg_model <- glm(Churn ~ MonthlyCharges  + tenure + InternetService, data = telecomms_clean, family = binomial(link = 'logit'))
+
+telecomms_clean_multi_logreg_model
+
+```
+
+
+```{r}
+
+library(broom)
+
+tidy_out <- clean_names(tidy(telecomms_clean_multi_logreg_model))
+
+glance_out <- clean_names(glance(telecomms_clean_multi_logreg_model))
+
+
+```
+
+```{r}
+
+glance_out
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
